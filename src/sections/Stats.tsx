@@ -132,7 +132,10 @@ export default function Stats() {
     <section
       id="stats"
       className="sticky-section z-20 overflow-visible"
-      style={{ background: '#040d1e' }}
+      style={{
+        // Top of section matches hero (#020617), transitions to stats navy below the organic line
+        background: 'linear-gradient(180deg, #020617 0px, #020617 40px, #040d1e 100px)',
+      }}
       aria-label="Key statistics"
     >
       {/* Organic electric-blue top edge */}

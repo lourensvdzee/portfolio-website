@@ -50,15 +50,46 @@ body::before {
   );
 }
 
-/* ─── Hero section — NOT sticky, height follows content ─ */
-.hero-section {
-  position: relative;
-  min-height: 100dvh; /* dynamic viewport height: handles mobile browser chrome */
+/* ─── Hero intro — sticky on mobile (page 1), regular flow on desktop ─ */
+.hero-intro {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding-top: 3rem;
   padding-bottom: 4rem;
+  background-color: var(--color-bg);
+}
+
+/* ─── Hero about — sticky on mobile (page 2), regular flow on desktop ─ */
+.hero-about {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-bg);
+}
+
+/* ─── Desktop: both hero sections are normal flow (not sticky) ─ */
+@media (min-width: 1024px) {
+  .hero-intro {
+    position: relative;
+    min-height: 0;
+    padding-top: 6rem;
+    padding-bottom: 2rem;
+  }
+
+  .hero-about {
+    position: relative;
+    min-height: 0;
+    padding-bottom: 6rem;
+  }
 }
 
 /* ─── Sticky stacking system (Stats and below) ──── */
@@ -231,7 +262,9 @@ body::before {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 
-  .sticky-section { position: relative; }
+  .hero-intro,
+  .hero-about,
+  .sticky-section { position: relative; min-height: 0; }
   body::before { display: none; }
   .glitch-text { animation: none; }
 }

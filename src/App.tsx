@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
+import { Leva } from 'leva'
 import Hero from './sections/Hero'
+import HeroAbout from './sections/HeroAbout'
 import Stats from './sections/Stats'
 import FeaturedProjects from './sections/FeaturedProjects'
 import Workflow from './sections/Workflow'
@@ -8,6 +10,8 @@ import Portfolio from './sections/Portfolio'
 import Booking from './sections/Booking'
 import Footer from './sections/Footer'
 import CustomCursor from './components/ui/CustomCursor'
+
+const IS_DEV = import.meta.env.DEV
 
 export default function App() {
   // Aurora effect: update CSS variables on mousemove — zero React renders
@@ -32,9 +36,12 @@ export default function App() {
       >
         Skip to content
       </a>
+      {/* Leva dev panel — hidden in production, visible in dev */}
+      <Leva hidden={!IS_DEV} />
       <CustomCursor />
       <main>
         <Hero />
+        <HeroAbout />
         <Stats />
         <FeaturedProjects />
         <Workflow />
