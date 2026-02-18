@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Hero from './sections/Hero'
 import Stats from './sections/Stats'
 import FeaturedProjects from './sections/FeaturedProjects'
@@ -6,8 +7,23 @@ import Capabilities from './sections/Capabilities'
 import Portfolio from './sections/Portfolio'
 import Booking from './sections/Booking'
 import Footer from './sections/Footer'
+import CustomCursor from './components/ui/CustomCursor'
 
 export default function App() {
+  // Aurora effect: update CSS variables on mousemove — zero React renders
+  useEffect(() => {
+    if (window.matchMedia('(pointer: coarse)').matches) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    function onMove(e: MouseEvent) {
+      document.documentElement.style.setProperty('--mx', `${e.clientX}px`)
+      document.documentElement.style.setProperty('--my', `${e.clientY}px`)
+    }
+
+    window.addEventListener('mousemove', onMove, { passive: true })
+    return () => window.removeEventListener('mousemove', onMove)
+  }, [])
+
   return (
     <>
       <a
@@ -16,6 +32,7 @@ export default function App() {
       >
         Skip to content
       </a>
+      <CustomCursor />
       <main>
         <Hero />
         <Stats />

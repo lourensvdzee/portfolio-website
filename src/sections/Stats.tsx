@@ -33,7 +33,6 @@ function Counter({ target, suffix = '' }: { target: number; suffix?: string }) {
           function animate(now: number) {
             const elapsed = now - start
             const progress = Math.min(elapsed / duration, 1)
-            // Ease out cubic
             const eased = 1 - Math.pow(1 - progress, 3)
             setCount(Math.round(eased * target))
             if (progress < 1) requestAnimationFrame(animate)
@@ -64,7 +63,7 @@ export default function Stats() {
   return (
     <section
       id="stats"
-      className="sticky-section z-20 bg-bg"
+      className="sticky-section z-20 stats-reveal"
       aria-label="Key statistics"
     >
       <div className="section-inner">
@@ -73,7 +72,7 @@ export default function Stats() {
           initial={reduced ? undefined : 'hidden'}
           whileInView={reduced ? undefined : 'visible'}
           viewport={{ once: true, amount: 0.3 }}
-          className="grid grid-cols-2 gap-8 md:grid-cols-4"
+          className="grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8"
         >
           {stats.map((stat) => (
             <motion.div
