@@ -3,76 +3,83 @@ import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 /**
- * Custom cursor — dot + lagging ring.
- * Disabled on touch devices via CSS and pointer check.
+ * Custom cursor — dot (direct DOM, zero lag) + spring-lagged ring.
+ * Disabled on touch devices.
  */
 export default function CustomCursor() {
   const reduced = useReducedMotion()
-  const [visible, setVisible] = useState(false)
+  const dotRef = useRef<HTMLDivElement>(null)
   const [hovering, setHovering] = useState(false)
-  const isTouch = useRef(false)
+  const [visible, setVisible] = useState(false)
 
-  const x = useMotionValue(-100)
-  const y = useMotionValue(-100)
-
-  // Dot follows exactly (high stiffness = instant)
-  const dotX = useSpring(x, { stiffness: 2000, damping: 60 })
-  const dotY = useSpring(y, { stiffness: 2000, damping: 60 })
-
-  // Ring lags behind (lower stiffness = organic trailing)
-  const ringX = useSpring(x, { stiffness: 180, damping: 22 })
-  const ringY = useSpring(y, { stiffness: 180, damping: 22 })
+  // Ring only uses spring (intentional lag for trailing effect)
+  const rx = useMotionValue(-100)
+  const ry = useMotionValue(-100)
+  const ringX = useSpring(rx, { stiffness: 160, damping: 20 })
+  const ringY = useSpring(ry, { stiffness: 160, damping: 20 })
 
   useEffect(() => {
-    // Detect touch — disable cursor on touch devices
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      isTouch.current = true
-      return
-    }
+    if (window.matchMedia('(pointer: coarse)').matches) return
 
     function onMove(e: MouseEvent) {
-      x.set(e.clientX)
-      y.set(e.clientY)
+      // Dot: bypass React + Framer entirely — direct DOM, truly instant
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate(${e.clientX - 3}px, ${e.clientY - 3}px)`
+        if (!visible) dotRef.current.style.opacity = '1'
+      }
+      // Ring: via motion value → spring
+      rx.set(e.clientX)
+      ry.set(e.clientY)
       if (!visible) setVisible(true)
     }
 
     function onOver(e: MouseEvent) {
-      const target = e.target as HTMLElement
-      setHovering(!!target.closest('a, button, [role="button"], [data-hover]'))
+      const t = e.target as HTMLElement
+      setHovering(!!t.closest('a, button, [role="button"], [data-hover]'))
     }
 
     function onLeave() {
+      if (dotRef.current) dotRef.current.style.opacity = '0'
       setVisible(false)
     }
 
     window.addEventListener('mousemove', onMove, { passive: true })
     document.addEventListener('mouseover', onOver, { passive: true })
     document.addEventListener('mouseleave', onLeave, { passive: true })
-
     return () => {
       window.removeEventListener('mousemove', onMove)
       document.removeEventListener('mouseover', onOver)
       document.removeEventListener('mouseleave', onLeave)
     }
-  }, [visible, x, y])
+  }, [visible, rx, ry])
 
-  if (reduced || (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches)) {
-    return null
-  }
+  if (reduced) return null
 
   return (
     <>
-      {/* Inner dot — precise position */}
-      <motion.div
-        className="cursor-dot"
-        style={{ x: dotX, y: dotY, opacity: visible ? 1 : 0 }}
+      {/* Dot — zero lag, direct DOM manipulation */}
+      <div
+        ref={dotRef}
         aria-hidden="true"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: 6,
+          height: 6,
+          borderRadius: '50%',
+          background: 'rgba(255,255,255,0.92)',
+          pointerEvents: 'none',
+          zIndex: 9999,
+          opacity: 0,
+          transform: 'translate(-100px, -100px)',
+        }}
       />
-      {/* Outer ring — trails with spring */}
+      {/* Ring — spring lag for organic trailing */}
       <motion.div
+        aria-hidden="true"
         className={`cursor-ring${hovering ? ' is-hovering' : ''}`}
         style={{ x: ringX, y: ringY, opacity: visible ? 1 : 0 }}
-        aria-hidden="true"
       />
     </>
   )
