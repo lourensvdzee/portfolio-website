@@ -1,7 +1,13 @@
 import { motion } from 'framer-motion'
-import { ArrowDown, Calendar } from 'lucide-react'
+import { ArrowDown, Calendar, CheckCircle2 } from 'lucide-react'
 import { fadeInUp, staggerContainer } from '../utils/animations'
 import { useReducedMotion } from '../hooks/useReducedMotion'
+
+const usps = [
+  'Free MVP feasibility call',
+  'Working prototype in 1–3 days',
+  'No dev team required',
+]
 
 export default function Hero() {
   const reduced = useReducedMotion()
@@ -22,6 +28,23 @@ export default function Hero() {
           <div className="absolute bottom-1/4 right-1/4 h-[400px] w-[400px] rounded-full bg-accent/[0.07] blur-[120px] animate-pulse [animation-delay:2s]" />
         </div>
       )}
+
+      {/* USP strip — bottom of hero, right-aligned, hidden on xs */}
+      <div
+        className="hidden sm:block absolute bottom-0 inset-x-0 px-6 sm:px-8 pb-7 sm:pb-9 pointer-events-none"
+        aria-hidden="true"
+      >
+        <div className="mx-auto max-w-[1200px] flex justify-end gap-5 sm:gap-8">
+          {usps.map((usp) => (
+            <div key={usp} className="flex items-center gap-1.5">
+              <CheckCircle2 className="h-3.5 w-3.5 flex-shrink-0 text-emerald-500 opacity-90" />
+              <span className="text-[11px] sm:text-xs text-text/50 whitespace-nowrap">
+                {usp}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className="section-inner">
         <motion.div

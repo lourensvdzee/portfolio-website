@@ -4,7 +4,6 @@ import { useControls, folder } from 'leva'
 import { fadeInUp } from '../utils/animations'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 
-// Photo receives pre-computed spring values from the parent (full-page tracking)
 function ProfilePhoto({
   rotateX,
   rotateY,
@@ -12,7 +11,7 @@ function ProfilePhoto({
   rotateX: ReturnType<typeof useSpring>
   rotateY: ReturnType<typeof useSpring>
 }) {
-  // Correct Leva folder API: folder() wraps the schema, not a computed key
+  // Correct Leva folder API: folder(schema, settings)
   const { posX, posY, circleSize, perspective } = useControls('Photo', {
     'Position': folder(
       {
@@ -33,8 +32,12 @@ function ProfilePhoto({
   const sz = `${circleSize}px`
 
   return (
+    /*
+      profile-photo-wrapper: responsive max-size caps defined in index.css
+      — overrides Leva's inline size on small screens via CSS max-width/max-height
+    */
     <div
-      className="relative"
+      className="relative profile-photo-wrapper"
       style={{ width: sz, height: sz, perspective: `${perspective}px` }}
     >
       {/* Ambient glow */}
@@ -83,13 +86,11 @@ function ProfilePhoto({
 export default function HeroAbout() {
   const reduced = useReducedMotion()
 
-  // Leva tilt controls — panel visibility controlled by <Leva hidden /> in App.tsx
   const { tiltRange, tiltStiffness } = useControls('Tilt', {
     tiltRange: { value: 20, min: 5, max: 35, step: 1, label: 'Range (deg)' },
     tiltStiffness: { value: 80, min: 30, max: 200, step: 10, label: 'Stiffness' },
   })
 
-  // Full-page mouse tracking for tilt effect
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
 
@@ -115,48 +116,61 @@ export default function HeroAbout() {
   return (
     <section
       id="hero-about"
-      className="hero-about relative bg-bg"
+      className="hero-about"
       aria-label="About Lourens"
     >
       <div className="section-inner">
         {/*
-          Desktop: flex row, justify-end → bio (text-right) + photo, both right-aligned
-          Mobile:  flex col, centered → photo on top, bio below
+          Desktop: flex row, justify-end → [bio right-aligned] [photo], whole block right-aligned
+          Mobile:  flex col, centered   → photo top, bio below
         */}
-        <motion.div
-          variants={reduced ? undefined : { hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-          initial={reduced ? undefined : 'hidden'}
-          whileInView={reduced ? undefined : 'visible'}
-          viewport={{ once: true, amount: 0.3 }}
-          className="flex flex-col items-center lg:flex-row lg:justify-end lg:items-center lg:gap-10"
-        >
-          {/* Photo — top on mobile, right on desktop */}
-          <div className="order-1 lg:order-2 shrink-0">
-            <ProfilePhoto rotateX={rotateX} rotateY={rotateY} />
-          </div>
+        <div className="flex flex-col items-center lg:flex-row lg:justify-end lg:items-center lg:gap-12">
 
-          {/* Bio — below on mobile, left-of-photo (text-right) on desktop */}
+          {/* Photo — top on mobile, right on desktop; spring bounce on entry */}
+          <motion.div
+            initial={reduced ? undefined : { y: 48, opacity: 0 }}
+            whileInView={reduced ? undefined : { y: 0, opacity: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={
+              reduced
+                ? undefined
+                : { type: 'spring', stiffness: 180, damping: 10, mass: 0.85 }
+            }
+            className="order-1 lg:order-2 shrink-0"
+          >
+            <ProfilePhoto rotateX={rotateX} rotateY={rotateY} />
+          </motion.div>
+
+          {/* Bio text — below on mobile, left-of-photo (text-right) on desktop */}
           <motion.div
             variants={reduced ? undefined : fadeInUp}
-            className="order-2 lg:order-1 max-w-sm text-center lg:text-right mt-6 lg:mt-0"
+            initial={reduced ? undefined : 'hidden'}
+            whileInView={reduced ? undefined : 'visible'}
+            viewport={{ once: true, amount: 0.3 }}
+            className="order-2 lg:order-1 max-w-md text-center lg:text-right mt-8 lg:mt-0"
           >
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent">
+            {/* Role badge — bigger, with electric glitch effect */}
+            <p
+              className={`mb-4 text-sm sm:text-base font-semibold uppercase tracking-widest text-accent${reduced ? '' : ' badge-glitch'}`}
+            >
               Product Builder &amp; AI Prototyper
             </p>
-            <p className="text-sm leading-relaxed text-muted/90">
-              I'm <span className="text-text font-medium">Lourens van der Zee</span>. I help
+
+            <p className="text-base sm:text-lg leading-relaxed text-muted/90">
+              I'm <span className="text-text font-semibold">Lourens van der Zee</span>. I help
               founders and teams turn ideas into working products, fast.
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-muted/90">
-              After 10+ years across e-commerce, SaaS and marketing, I now combine product
+            <p className="mt-4 text-base sm:text-lg leading-relaxed text-muted/90">
+              After 15+ years across SaaS, e-commerce, and marketing, I now combine product
               thinking and AI tooling to build MVPs, automations and internal tools — testable
               in days, not months.
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-muted/80 italic">
+            <p className="mt-4 text-sm sm:text-base leading-relaxed text-muted/70 italic">
               I don't replace your dev team. I accelerate everything before you need them.
             </p>
           </motion.div>
-        </motion.div>
+
+        </div>
       </div>
     </section>
   )

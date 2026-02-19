@@ -28,7 +28,6 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Hide default cursor on pointer (mouse) devices */
   cursor: none;
 }
 
@@ -50,7 +49,7 @@ body::before {
   );
 }
 
-/* ─── Hero intro — sticky on mobile (page 1), regular flow on desktop ─ */
+/* ─── Hero intro — sticky on ALL screens (page 1) ─ */
 .hero-intro {
   position: sticky;
   top: 0;
@@ -64,7 +63,10 @@ body::before {
   background-color: var(--color-bg);
 }
 
-/* ─── Hero about — sticky on mobile (page 2), regular flow on desktop ─ */
+/* ─── Hero about — sticky on ALL screens (page 2) ─
+   Transparent at the very top so the previous page bleeds through
+   as this section slides up — creates a cinematic reveal effect.
+─────────────────────────────────────────────────── */
 .hero-about {
   position: sticky;
   top: 0;
@@ -73,23 +75,13 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-bg);
-}
-
-/* ─── Desktop: both hero sections are normal flow (not sticky) ─ */
-@media (min-width: 1024px) {
-  .hero-intro {
-    position: relative;
-    min-height: 0;
-    padding-top: 6rem;
-    padding-bottom: 2rem;
-  }
-
-  .hero-about {
-    position: relative;
-    min-height: 0;
-    padding-bottom: 6rem;
-  }
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(2, 6, 23, 0) 5%,
+    rgba(2, 6, 23, 0.85) 26%,
+    #020617 44%
+  );
 }
 
 /* ─── Sticky stacking system (Stats and below) ──── */
@@ -112,10 +104,10 @@ body::before {
 }
 
 /* ─── Multi-variant glitch animation ───────────────
-   10.5s total cycle = 3 variants × ~3.5s each
-   Variant A (horizontal): fires at 27-34%  (~2.8-3.6s)
-   Variant B (vertical):   fires at 60-66%  (~6.3-6.9s)
-   Variant C (fast entry): fires at 92-96%  (~9.7-10.1s)
+   10.5s total cycle — 2 active variants:
+   Variant A (horizontal RGB split): fires at 27-34% (~2.8-3.6s)
+   Variant C (fast italic right entry): fires at 92-96% (~9.7-10.1s)
+   Variant B (vertical carousel) REMOVED — too bouncy.
 ─────────────────────────────────────────────────── */
 
 @keyframes multi-glitch {
@@ -123,8 +115,6 @@ body::before {
   0%,
   25%,
   35%,
-  58%,
-  67%,
   90%,
   100% {
     transform: none;
@@ -162,33 +152,6 @@ body::before {
     text-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
   }
 
-  /* ── Variant B: Vertical carousel ── */
-  60% {
-    transform: translateY(-14px) scaleY(0.94);
-    opacity: 0.45;
-    text-shadow: 0 7px 0 rgba(37, 99, 235, 0.5), 0 -7px 0 rgba(0, 215, 255, 0.5);
-    clip-path: polygon(0 8%, 100% 8%, 100% 92%, 0 92%);
-  }
-  61.5% {
-    transform: translateY(9px) scaleY(1.03);
-    opacity: 0.75;
-    text-shadow: 0 -5px 0 rgba(37, 99, 235, 0.85);
-    clip-path: none;
-  }
-  63% {
-    transform: translateY(-5px);
-    opacity: 0.9;
-    text-shadow: 0 4px 0 rgba(255, 255, 255, 0.18);
-  }
-  64.5% {
-    transform: translateY(2px);
-    text-shadow: 0 0 22px rgba(59, 130, 246, 0.7);
-  }
-  66% {
-    transform: translateY(-1px);
-    text-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
-  }
-
   /* ── Variant C: Fast entry from right, bold italic ── */
   92% {
     transform: translateX(55px) scaleX(1.06);
@@ -222,6 +185,99 @@ body::before {
 .glitch-text {
   display: inline-block;
   animation: multi-glitch 10.5s ease-in-out infinite;
+}
+
+/* ─── Electric / lightning badge glitch ────────────
+   7s cycle. Sharp, channel-split, scanline flicker —
+   deliberately NOT bouncy/cartoony.
+─────────────────────────────────────────────────── */
+
+@keyframes badge-glitch {
+  /* ── Clean baseline ── */
+  0%, 72%, 89%, 100% {
+    transform: none;
+    filter: none;
+    clip-path: none;
+    opacity: 1;
+    letter-spacing: inherit;
+    text-shadow: 0 0 8px rgba(59, 130, 246, 0.35);
+  }
+
+  /* ── Discharge burst: 73-88% (~5.1-6.2s) ── */
+  73% {
+    transform: translate(-3px, 0) skewX(-6deg);
+    text-shadow: 4px 0 rgba(0, 240, 255, 1), -4px 0 rgba(37, 99, 235, 1);
+    clip-path: polygon(0 0, 100% 0, 100% 42%, 0 42%);
+    filter: brightness(2.2) contrast(1.6);
+    opacity: 0.92;
+  }
+  74.5% {
+    transform: translate(4px, 0) skewX(4deg);
+    text-shadow: -5px 0 rgba(180, 0, 255, 0.7), 5px 0 rgba(0, 240, 255, 0.9);
+    clip-path: polygon(0 42%, 100% 42%, 100% 78%, 0 78%);
+    filter: brightness(3) contrast(2) saturate(1.8);
+    opacity: 1;
+  }
+  76% {
+    transform: translate(-1px, 0);
+    text-shadow: 6px 0 rgba(0, 200, 255, 1), -6px 0 rgba(255, 0, 120, 0.75);
+    clip-path: none;
+    filter: brightness(3.5) contrast(2.2);
+    letter-spacing: 0.04em;
+  }
+  77.5% {
+    transform: translate(2px, 0) scaleX(1.03);
+    text-shadow:
+      0 0 24px rgba(0, 200, 255, 1),
+      0 0 48px rgba(37, 99, 235, 0.9),
+      3px 0 rgba(255, 200, 0, 0.5);
+    filter: brightness(2.5) contrast(1.8);
+    letter-spacing: -0.02em;
+  }
+  79% {
+    transform: translate(-1px, 0) skewX(-2deg);
+    text-shadow: 2px 0 rgba(0, 240, 255, 0.8), -2px 0 rgba(255, 0, 180, 0.5);
+    filter: brightness(1.8) contrast(1.4);
+  }
+  80.5% {
+    transform: translate(1px, 0);
+    text-shadow: 0 0 30px rgba(0, 160, 255, 0.95), 0 0 60px rgba(37, 99, 235, 0.6);
+    filter: brightness(1.4);
+  }
+  82%, 88% {
+    transform: none;
+    text-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
+    filter: brightness(1.05);
+    clip-path: none;
+    letter-spacing: inherit;
+    opacity: 1;
+  }
+}
+
+.badge-glitch {
+  display: inline-block;
+  animation: badge-glitch 7s ease-in-out infinite;
+}
+
+/* ─── Profile photo — responsive size caps ──────── */
+
+.profile-photo-wrapper {
+  /* Leva controls the base size via inline style; CSS max constrains on small screens */
+}
+
+@media (max-width: 639px) {
+  /* iPhone SE / small phones — keep image within safe area */
+  .profile-photo-wrapper {
+    max-width: min(200px, 58vw) !important;
+    max-height: min(200px, 58vw) !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 767px) {
+  .profile-photo-wrapper {
+    max-width: 260px !important;
+    max-height: 260px !important;
+  }
 }
 
 /* ─── Custom cursor ─────────────────────────────── */
@@ -266,5 +322,6 @@ body::before {
   .hero-about,
   .sticky-section { position: relative; min-height: 0; }
   body::before { display: none; }
-  .glitch-text { animation: none; }
+  .glitch-text,
+  .badge-glitch { animation: none; }
 }
