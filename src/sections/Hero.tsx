@@ -36,9 +36,9 @@ export default function Hero() {
       >
         <div className="mx-auto max-w-[1200px] flex justify-end gap-5 sm:gap-8">
           {usps.map((usp) => (
-            <div key={usp} className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-3.5 w-3.5 flex-shrink-0 text-emerald-500 opacity-90" />
-              <span className="text-[11px] sm:text-xs text-text/50 whitespace-nowrap">
+            <div key={usp} className="flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-emerald-400" />
+              <span className="text-xs sm:text-sm font-medium text-text/70 whitespace-nowrap">
                 {usp}
               </span>
             </div>

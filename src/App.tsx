@@ -2,11 +2,9 @@ import { useEffect } from 'react'
 import { Leva } from 'leva'
 import Hero from './sections/Hero'
 import HeroAbout from './sections/HeroAbout'
-import Stats from './sections/Stats'
 import FeaturedProjects from './sections/FeaturedProjects'
 import Workflow from './sections/Workflow'
 import Capabilities from './sections/Capabilities'
-import Portfolio from './sections/Portfolio'
 import Booking from './sections/Booking'
 import Footer from './sections/Footer'
 import CustomCursor from './components/ui/CustomCursor'
@@ -36,18 +34,16 @@ export default function App() {
       >
         Skip to content
       </a>
-      {/* Leva dev panel — hidden in production, visible in dev */}
+      {/* Leva dev panel — hidden in production */}
       <Leva hidden={!IS_DEV} />
       <CustomCursor />
       <main>
-        <Hero />
-        <HeroAbout />
-        <Stats />
-        <FeaturedProjects />
-        <Workflow />
-        <Capabilities />
-        <Portfolio />
-        <Booking />
+        <Hero />          {/* z-10 */}
+        <HeroAbout />     {/* z-15 */}
+        <FeaturedProjects /> {/* z-20 — has organic edge + blue bg */}
+        <Workflow />      {/* z-30 */}
+        <Capabilities />  {/* z-40 */}
+        <Booking />       {/* z-50 */}
       </main>
       <Footer />
     </>

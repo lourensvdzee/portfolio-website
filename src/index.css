@@ -64,8 +64,8 @@ body::before {
 }
 
 /* ─── Hero about — sticky on ALL screens (page 2) ─
-   Transparent at the very top so the previous page bleeds through
-   as this section slides up — creates a cinematic reveal effect.
+   Transparent top lets HeroIntro bleed through on entry.
+   Solid by 25% so the section is fully opaque when fully in view.
 ─────────────────────────────────────────────────── */
 .hero-about {
   position: sticky;
@@ -78,13 +78,13 @@ body::before {
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(2, 6, 23, 0) 5%,
-    rgba(2, 6, 23, 0.85) 26%,
-    #020617 44%
+    rgba(2, 6, 23, 0) 3%,
+    rgba(2, 6, 23, 0.95) 18%,
+    #020617 26%
   );
 }
 
-/* ─── Sticky stacking system (Stats and below) ──── */
+/* ─── Sticky stacking system (FeaturedProjects and below) ── */
 .sticky-section {
   position: sticky;
   top: 0;
@@ -103,20 +103,18 @@ body::before {
   padding: 4rem 1.5rem;
 }
 
-/* ─── Multi-variant glitch animation ───────────────
-   10.5s total cycle — 2 active variants:
-   Variant A (horizontal RGB split): fires at 27-34% (~2.8-3.6s)
-   Variant C (fast italic right entry): fires at 92-96% (~9.7-10.1s)
-   Variant B (vertical carousel) REMOVED — too bouncy.
+/* ─── Multi-variant glitch ──────────────────────────
+   6s total cycle. Effect fires almost immediately (~0.25s)
+   and again ~2.5s later. Variant B (bouncy vertical) removed.
+   Variant A (horizontal RGB split): 4-14%
+   Variant C (fast italic right entry): 56-70%
 ─────────────────────────────────────────────────── */
 
 @keyframes multi-glitch {
   /* ── Clean baseline ── */
-  0%,
-  25%,
-  35%,
-  90%,
-  100% {
+  0%, 3%,
+  15%, 54%,
+  71%, 100% {
     transform: none;
     opacity: 1;
     clip-path: none;
@@ -125,35 +123,30 @@ body::before {
     letter-spacing: inherit;
   }
 
-  /* ── Variant A: Horizontal channel split ── */
-  27% {
+  /* ── Variant A: Horizontal RGB channel split (~0.24-0.84s) ── */
+  4% {
     clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
     transform: translate(-4px, 0) skewX(-2deg);
     text-shadow: 5px 0 rgba(255, 30, 30, 0.75), -5px 0 rgba(0, 215, 255, 0.75);
   }
-  28.5% {
+  7% {
     clip-path: polygon(0 40%, 100% 40%, 100% 70%, 0 70%);
     transform: translate(4px, 0) skewX(1.5deg);
     text-shadow: -4px 0 rgba(37, 99, 235, 1), 2px 0 rgba(255, 80, 0, 0.4);
   }
-  30% {
+  10% {
     clip-path: polygon(0 0, 100% 0, 100% 25%, 0 25%);
     transform: translate(-2px, 1px);
     text-shadow: 3px 0 rgba(255, 30, 30, 0.5), -3px 0 rgba(0, 215, 255, 0.5);
   }
-  31.5% {
+  12% {
     clip-path: none;
     transform: translate(1px, 0);
     text-shadow: 0 0 32px rgba(59, 130, 246, 0.9);
   }
-  33%, 34% {
-    clip-path: none;
-    transform: none;
-    text-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
-  }
 
-  /* ── Variant C: Fast entry from right, bold italic ── */
-  92% {
+  /* ── Variant C: Fast entry from right, bold italic (~3.36-4.2s) ── */
+  56% {
     transform: translateX(55px) scaleX(1.06);
     opacity: 0;
     font-style: italic;
@@ -161,20 +154,20 @@ body::before {
     letter-spacing: -0.03em;
     text-shadow: none;
   }
-  93.5% {
+  60% {
     transform: translateX(-9px) scaleX(0.97);
     opacity: 0.82;
     font-style: italic;
     letter-spacing: -0.015em;
     text-shadow: 4px 0 rgba(255, 30, 30, 0.45);
   }
-  95% {
+  65% {
     transform: translateX(3px);
     opacity: 0.96;
     font-style: italic;
     text-shadow: 0 0 22px rgba(37, 99, 235, 0.6);
   }
-  96% {
+  70% {
     transform: none;
     font-style: normal;
     letter-spacing: inherit;
@@ -184,17 +177,17 @@ body::before {
 
 .glitch-text {
   display: inline-block;
-  animation: multi-glitch 10.5s ease-in-out infinite;
+  animation: multi-glitch 6s ease-in-out infinite;
 }
 
 /* ─── Electric / lightning badge glitch ────────────
-   7s cycle. Sharp, channel-split, scanline flicker —
-   deliberately NOT bouncy/cartoony.
+   2.5s cycle — fires 1s after element loads (animation-delay),
+   then every 2.5s. Sharp discharge, no bounce.
 ─────────────────────────────────────────────────── */
 
 @keyframes badge-glitch {
   /* ── Clean baseline ── */
-  0%, 72%, 89%, 100% {
+  0%, 68%, 96%, 100% {
     transform: none;
     filter: none;
     clip-path: none;
@@ -203,29 +196,29 @@ body::before {
     text-shadow: 0 0 8px rgba(59, 130, 246, 0.35);
   }
 
-  /* ── Discharge burst: 73-88% (~5.1-6.2s) ── */
-  73% {
+  /* ── Discharge burst: 70-93% (~1.75-2.33s in 2.5s cycle) ── */
+  70% {
     transform: translate(-3px, 0) skewX(-6deg);
     text-shadow: 4px 0 rgba(0, 240, 255, 1), -4px 0 rgba(37, 99, 235, 1);
     clip-path: polygon(0 0, 100% 0, 100% 42%, 0 42%);
     filter: brightness(2.2) contrast(1.6);
     opacity: 0.92;
   }
-  74.5% {
+  74% {
     transform: translate(4px, 0) skewX(4deg);
     text-shadow: -5px 0 rgba(180, 0, 255, 0.7), 5px 0 rgba(0, 240, 255, 0.9);
     clip-path: polygon(0 42%, 100% 42%, 100% 78%, 0 78%);
     filter: brightness(3) contrast(2) saturate(1.8);
     opacity: 1;
   }
-  76% {
+  78% {
     transform: translate(-1px, 0);
     text-shadow: 6px 0 rgba(0, 200, 255, 1), -6px 0 rgba(255, 0, 120, 0.75);
     clip-path: none;
     filter: brightness(3.5) contrast(2.2);
     letter-spacing: 0.04em;
   }
-  77.5% {
+  82% {
     transform: translate(2px, 0) scaleX(1.03);
     text-shadow:
       0 0 24px rgba(0, 200, 255, 1),
@@ -234,49 +227,47 @@ body::before {
     filter: brightness(2.5) contrast(1.8);
     letter-spacing: -0.02em;
   }
-  79% {
+  86% {
     transform: translate(-1px, 0) skewX(-2deg);
     text-shadow: 2px 0 rgba(0, 240, 255, 0.8), -2px 0 rgba(255, 0, 180, 0.5);
     filter: brightness(1.8) contrast(1.4);
   }
-  80.5% {
+  90% {
     transform: translate(1px, 0);
     text-shadow: 0 0 30px rgba(0, 160, 255, 0.95), 0 0 60px rgba(37, 99, 235, 0.6);
     filter: brightness(1.4);
-  }
-  82%, 88% {
-    transform: none;
-    text-shadow: 0 0 12px rgba(59, 130, 246, 0.5);
-    filter: brightness(1.05);
-    clip-path: none;
-    letter-spacing: inherit;
-    opacity: 1;
   }
 }
 
 .badge-glitch {
   display: inline-block;
-  animation: badge-glitch 7s ease-in-out infinite;
+  animation: badge-glitch 2.5s ease-in-out infinite;
+  animation-delay: 1s;
+  animation-fill-mode: backwards;
 }
 
 /* ─── Profile photo — responsive size caps ──────── */
 
-.profile-photo-wrapper {
-  /* Leva controls the base size via inline style; CSS max constrains on small screens */
-}
-
 @media (max-width: 639px) {
-  /* iPhone SE / small phones — keep image within safe area */
+  /* iPhone SE / small phones — keep image in safe area, leave room for bio */
   .profile-photo-wrapper {
-    max-width: min(200px, 58vw) !important;
-    max-height: min(200px, 58vw) !important;
+    max-width: min(210px, 55vw) !important;
+    max-height: min(210px, 55vw) !important;
   }
 }
 
 @media (min-width: 640px) and (max-width: 767px) {
   .profile-photo-wrapper {
-    max-width: 260px !important;
-    max-height: 260px !important;
+    max-width: 250px !important;
+    max-height: 250px !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Tablet: don't let it dominate, leave room for bio */
+  .profile-photo-wrapper {
+    max-width: 300px !important;
+    max-height: 300px !important;
   }
 }
 
