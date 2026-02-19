@@ -22,10 +22,10 @@ const projects: Project[] = [
     title: 'VMDb',
     tagline: 'An IMDb-style discovery platform for plant-based products',
     description:
-      'VMDb is a product discovery and data platform for plant-based foods — built to prove how fast complex consumer platforms can be prototyped with AI-assisted development. It includes barcode scanning for instant product lookup, image-to-text extraction for ingredient lists, automated producer scraping, Open Food Facts API integration, and AI-assisted systems that locate missing product images and fill structured data gaps.',
+      'VMDb is a full-stack product discovery platform for plant-based foods that combines live barcode scanning, automated producer website scraping, and community reviews into a unified catalog. Built with Next.js (public app) and a separate React admin panel, it features intelligent batch rating calculations for sub-second lookups across thousands of products, multi-layer Open Food Facts API caching, and Google Genai-powered image candidate ranking.',
     extendedDescription:
-      'The platform handles multiple data pipelines simultaneously: a live barcode scanner, an OCR pipeline for label photos, a producer scraper, and an AI enrichment layer that fills in missing fields. Admin tooling allows manual review of AI suggestions before they go live. Built solo in a fraction of the time a traditional team would need — as a direct proof of concept for AI-accelerated product building.',
-    tags: ['React', 'Python', 'FastAPI', 'PostgreSQL', 'OpenAI', 'OCR', 'Scraping'],
+      'The platform runs multiple data pipelines simultaneously: a ZXing-powered barcode scanner (EAN-13/UPC), a producer sitemap scraper covering 50+ brands, an AI enrichment layer for missing product images and data, and a full review + moderation system. Multi-country support (Germany, Netherlands) is built-in with locale-aware sitemaps and region-filtered product queries. Built solo in a fraction of the time a traditional team would need — a direct proof of concept for AI-accelerated product building.',
+    tags: ['Next.js', 'React', 'Supabase', 'Google Genai', 'Open Food Facts', 'Barcode', 'TypeScript'],
     images: [
       '/vmdb_header.png',
       '/vmdb_product.png',
@@ -36,12 +36,12 @@ const projects: Project[] = [
   {
     id: 'outreachscraper',
     title: 'OutreachScraper',
-    tagline: 'Automated lead discovery engine for local businesses',
+    tagline: 'Real-time B2B lead discovery engine for local businesses',
     description:
-      'OutreachScraper is a lead discovery engine that automatically finds local businesses via Google Maps, visits their websites, extracts contact emails from legal and contact pages, evaluates website freshness, and streams results live as they are discovered. It replaces hours of manual prospecting with a single structured workflow.',
+      'OutreachScraper automatically finds local businesses on Google Maps, visits their websites, extracts verified contact emails (including from German Impressum pages), and ranks prospects by conversion likelihood — streaming results live as they are discovered. It filters out 200+ known retail chains and scores each lead on a 0–100 opportunity scale based on website maturity, email availability, and contact completeness.',
     extendedDescription:
-      'The system combines location-based search, multi-page website traversal, heuristic contact extraction, and a live-streaming results feed — all from a clean UI. Designed to be fast and scrappy: built for real outreach campaigns, not as a demo. Demonstrates how automation can turn a tedious daily process into a scalable, repeatable system in days.',
-    tags: ['Python', 'Playwright', 'FastAPI', 'React', 'TypeScript', 'SQLite'],
+      'The system uses a two-stage Google Places API strategy to minimize cost (~€0.30/lead), four parallel email extraction strategies (including obfuscated text detection), layered website age analysis (copyright headers → Last-Modified → Wayback Machine), and a chain-detection filter covering 200+ known businesses. Results stream in real-time via Server-Sent Events — no waiting for all results before you can act. Supabase persistence is optional; the tool gracefully continues offline.',
+    tags: ['Next.js', 'Google Places API', 'TypeScript', 'Supabase', 'SSE', 'Web Scraping'],
     images: [
       '/outreachscraper_1.png',
       '/outreachscraper_2.png',
@@ -53,12 +53,12 @@ const projects: Project[] = [
   {
     id: 'bulkmailer',
     title: 'ClickLocal Mailer',
-    tagline: 'Lightweight bulk outreach system for targeted campaigns',
+    tagline: 'Campaign tool with deliverability safeguards and live tracking',
     description:
-      'ClickLocal Mailer is a lightweight outbound campaign system built for fast, targeted outreach. It allows users to import prospect data, generate structured email campaigns, and send in batches — with deliverability safeguards and clean formatting built in. Built to replace heavy off-the-shelf marketing platforms for a specific, practical workflow.',
+      'ClickLocal Mailer is a lightweight outbound campaign system that imports prospect lists, generates HTML email campaigns, and sends in controlled batches — with quiet-hours enforcement, click/open tracking via pixel injection, and real-time Google Sheets integration for live campaign monitoring. Campaigns are persisted to disk so they survive server restarts and can be paused and resumed at any point.',
     extendedDescription:
-      'The tool connects directly to a prospect list (e.g. output from OutreachScraper), lets you compose templates, preview per-contact, and send in controlled batches. Throttling and sender rotation prevent deliverability issues. A lightweight alternative to platforms like Mailchimp when you need to move fast and control every step of the process yourself.',
-    tags: ['Python', 'React', 'FastAPI', 'TypeScript', 'SMTP', 'CSV import'],
+      'Built on Express.js with Nodemailer and the Google Sheets API, it includes: automatic campaign resumption from exact send index, bilingual GDPR/CAN-SPAM opt-out footers, SMTP pre-flight verification, and link wrapping for per-contact click attribution. The Google Sheets integration gives non-technical stakeholders a live dashboard of sent/opened/clicked status per recipient. Connects directly to OutreachScraper output for an end-to-end prospecting workflow.',
+    tags: ['Node.js', 'Express', 'Nodemailer', 'Google Sheets API', 'SMTP', 'TypeScript'],
     images: [
       '/bulkmailer_1.png',
       '/bulkmailer_2.png',
