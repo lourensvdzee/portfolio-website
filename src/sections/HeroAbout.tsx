@@ -81,7 +81,7 @@ export default function HeroAbout() {
   const reduced = useReducedMotion()
 
   const { tiltRange, tiltStiffness } = useControls('Tilt', {
-    tiltRange: { value: 20, min: 5, max: 35, step: 1, label: 'Range (deg)' },
+    tiltRange: { value: 28, min: 5, max: 45, step: 1, label: 'Range (deg)' },
     tiltStiffness: { value: 80, min: 30, max: 200, step: 10, label: 'Stiffness' },
   })
 
@@ -103,8 +103,18 @@ export default function HeroAbout() {
       mouseX.set((e.clientX / window.innerWidth - 0.5) * 2)
       mouseY.set((e.clientY / window.innerHeight - 0.5) * 2)
     }
+    function onTouch(e: TouchEvent) {
+      const t = e.touches[0]
+      if (!t) return
+      mouseX.set((t.clientX / window.innerWidth - 0.5) * 2)
+      mouseY.set((t.clientY / window.innerHeight - 0.5) * 2)
+    }
     window.addEventListener('mousemove', onMove, { passive: true })
-    return () => window.removeEventListener('mousemove', onMove)
+    window.addEventListener('touchmove', onTouch, { passive: true })
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('touchmove', onTouch)
+    }
   }, [reduced, mouseX, mouseY])
 
   return (
@@ -122,13 +132,13 @@ export default function HeroAbout() {
 
           {/* Photo — top on mobile, right on desktop */}
           <motion.div
-            initial={reduced ? undefined : { y: 90, opacity: 0, scale: 0.92 }}
+            initial={reduced ? undefined : { y: 130, opacity: 0, scale: 0.86 }}
             whileInView={reduced ? undefined : { y: 0, opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={
               reduced
                 ? undefined
-                : { type: 'spring', stiffness: 110, damping: 8, mass: 1.3 }
+                : { type: 'spring', stiffness: 85, damping: 6, mass: 2.0 }
             }
             className="order-1 lg:order-2 shrink-0"
           >

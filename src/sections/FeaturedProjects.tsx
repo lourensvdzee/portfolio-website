@@ -2,14 +2,13 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
 import { useReducedMotion } from '../hooks/useReducedMotion'
-import { fadeInUp, staggerContainer } from '../utils/animations'
+import { staggerContainer } from '../utils/animations'
 
 interface Project {
   id: string
   title: string
   tagline: string
   description: string
-  extendedDescription: string
   tags: string[]
   images: string[]
   link?: string
@@ -18,13 +17,11 @@ interface Project {
 // VMDb is LAST — strongest closer
 const projects: Project[] = [
   {
-    id: 'outreachscraper',
-    title: 'OutreachScraper',
+    id: 'leadgenerator',
+    title: 'Lead Generator',
     tagline: 'Real-time B2B lead discovery engine for local businesses',
     description:
-      'OutreachScraper automatically finds local businesses on Google Maps, visits their websites, extracts verified contact emails (including from German Impressum pages), and ranks prospects by conversion likelihood. It filters out 200+ known retail chains and scores each lead on a 0 to 100 opportunity scale based on website maturity, email availability, and contact completeness.',
-    extendedDescription:
-      'The system uses a two-stage Google Places API strategy to minimize cost (~€0.30/lead), four parallel email extraction strategies (including obfuscated text detection), layered website age analysis (copyright headers, Last-Modified, Wayback Machine), and a chain-detection filter covering 200+ known businesses. Results stream in real-time via Server-Sent Events. Supabase persistence is optional; the tool gracefully continues offline.',
+      'Built for a website agency to automate their entire prospecting pipeline. Finds local businesses via Google Maps, visits each site, and extracts verified contact emails — including from German Impressum pages. Ranks prospects on a 0–100 opportunity score based on website maturity and contact completeness. Together with the Bulk Mailer, it forms a complete end-to-end automated outreach pipeline.',
     tags: ['Next.js', 'Google Places API', 'TypeScript', 'Supabase', 'SSE', 'Web Scraping'],
     images: [
       '/outreachscraper_1.png',
@@ -36,12 +33,10 @@ const projects: Project[] = [
   },
   {
     id: 'bulkmailer',
-    title: 'ClickLocal Mailer',
-    tagline: 'Campaign tool with deliverability safeguards and live tracking',
+    title: 'Bulk Mailer',
+    tagline: 'Campaign tool with enterprise-grade deliverability and live tracking',
     description:
-      'ClickLocal Mailer imports prospect lists, generates HTML email campaigns, and sends in controlled batches with quiet-hours enforcement, click/open tracking via pixel injection, and real-time Google Sheets integration for live campaign monitoring. Campaigns are persisted to disk and can be paused and resumed at any point.',
-    extendedDescription:
-      'Built on Express.js with Nodemailer and the Google Sheets API, it includes: automatic campaign resumption from exact send index, bilingual GDPR/CAN-SPAM opt-out footers, SMTP pre-flight verification, and link wrapping for per-contact click attribution. The Google Sheets integration gives non-technical stakeholders a live dashboard of sent/opened/clicked status per recipient. Connects directly to OutreachScraper output for an end-to-end prospecting workflow.',
+      'Companion to the Lead Generator — together they form a complete automated outreach pipeline. Runs campaigns with real deliverability infrastructure: DNS configuration (SPF, DKIM, DMARC), controlled batch sending with quiet-hours enforcement, pixel-based open/click tracking, opt-out handling, and real-time Google Sheets monitoring for non-technical stakeholders.',
     tags: ['Node.js', 'Express', 'Nodemailer', 'Google Sheets API', 'SMTP', 'TypeScript'],
     images: [
       '/bulkmailer_1.png',
@@ -54,9 +49,7 @@ const projects: Project[] = [
     title: 'VMDb',
     tagline: 'An IMDb-style discovery platform for plant-based products',
     description:
-      'VMDb is a full-stack product discovery platform for plant-based foods that combines live barcode scanning, automated producer website scraping, and community reviews into a unified catalog. It features batch rating calculations for sub-second lookups, multi-layer Open Food Facts API caching, and Google Genai-powered image candidate ranking.',
-    extendedDescription:
-      'The platform runs multiple data pipelines simultaneously: a ZXing-powered barcode scanner (EAN-13/UPC), a producer sitemap scraper covering 50+ brands, an AI enrichment layer for missing product images and data, and a full review and moderation system. Multi-country support (Germany, Netherlands) is built-in with locale-aware sitemaps and region-filtered product queries. Built solo in a fraction of the time a traditional team would need.',
+      'What started as a WordPress MVP became a full-stack product discovery platform for plant-based foods. Combines live barcode scanning (EAN-13/UPC), automated producer website scraping, Google Genai-powered image ranking, and community reviews into a unified catalog. Multi-country support (Germany, Netherlands), Google OAuth login, and much more. Live at vmdb.me.',
     tags: ['Next.js', 'React', 'Supabase', 'Google Genai', 'Open Food Facts', 'TypeScript'],
     images: [
       '/vmdb_header.png',
@@ -103,7 +96,7 @@ function OrganicEdge() {
   )
 }
 
-/* ── Project modal — image gallery + full content ── */
+/* ── Project modal — vertical layout: image on top, content below ── */
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
   const [imgIndex, setImgIndex] = useState(0)
   const [dir, setDir] = useState(0)
@@ -125,20 +118,20 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-md"
         onClick={onClose}
       />
-      {/* Panel */}
+      {/* Panel — always vertical */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.96 }}
-        transition={{ duration: 0.2, ease: 'easeOut' }}
-        className="fixed inset-x-3 top-[3%] bottom-[3%] sm:inset-x-8 sm:top-[5%] sm:bottom-[5%] z-[201] max-w-4xl mx-auto flex flex-col lg:flex-row rounded-2xl overflow-hidden border border-white/10"
+        initial={{ opacity: 0, scale: 0.96, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 20 }}
+        transition={{ duration: 0.22, ease: 'easeOut' }}
+        className="fixed inset-x-3 top-[4%] bottom-[4%] sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:w-[520px] z-[201] flex flex-col rounded-2xl overflow-hidden border border-white/10"
         style={{ background: '#040d1e' }}
         role="dialog"
         aria-label={project.title}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Image area */}
-        <div className="relative lg:w-[55%] shrink-0 bg-black overflow-hidden min-h-[180px] sm:min-h-[240px]">
+        {/* Image area — top, full width */}
+        <div className="relative h-52 sm:h-64 shrink-0 bg-black overflow-hidden">
           <AnimatePresence custom={dir} mode="wait">
             <motion.img
               key={imgIndex}
@@ -173,12 +166,11 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           )}
         </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-7">
+        {/* Content — scrollable */}
+        <div className="flex-1 overflow-y-auto p-5 sm:p-6">
           <h3 className="text-xl sm:text-2xl font-bold mb-1">{project.title}</h3>
           <p className="text-xs sm:text-sm font-semibold text-accent mb-4">{project.tagline}</p>
-          <p className="text-sm leading-relaxed text-muted/90 mb-3" style={{ hyphens: 'none' }}>{project.description}</p>
-          <p className="text-sm leading-relaxed text-muted/70" style={{ hyphens: 'none' }}>{project.extendedDescription}</p>
+          <p className="text-sm leading-relaxed text-muted/90" style={{ hyphens: 'none' }}>{project.description}</p>
           <div className="mt-4 flex flex-wrap gap-1.5">
             {project.tags.map((tag) => (
               <span key={tag} className="rounded-lg bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">{tag}</span>
@@ -201,25 +193,37 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
   )
 }
 
+/* ── Tile entrance variant ─────────────────────── */
+const tileVariant = {
+  hidden: { opacity: 0, y: 36, scale: 0.96 },
+  visible: {
+    opacity: 1, y: 0, scale: 1,
+    transition: { type: 'spring' as const, stiffness: 100, damping: 14 },
+  },
+}
+
 /* ── Compact tile ─────────────────────────────── */
 function ProjectTile({ project, reduced, onClick }: { project: Project; reduced: boolean; onClick: () => void }) {
   return (
     <motion.button
-      variants={reduced ? undefined : fadeInUp}
+      variants={reduced ? undefined : tileVariant}
+      whileHover={reduced ? undefined : { y: -8, scale: 1.02 }}
+      whileTap={reduced ? undefined : { scale: 0.97 }}
+      transition={{ type: 'spring', stiffness: 350, damping: 22 }}
       onClick={onClick}
-      className="w-full text-left rounded-2xl border border-white/[0.07] bg-white/[0.03] overflow-hidden cursor-pointer transition-all hover:border-primary/40 hover:shadow-[0_0_28px_rgba(37,99,235,0.15)] hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      className="group w-full h-full flex flex-col text-left rounded-2xl border border-white/[0.07] bg-white/[0.03] overflow-hidden cursor-pointer hover:border-primary/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       aria-haspopup="dialog"
     >
-      <div className="aspect-[16/9] w-full overflow-hidden">
+      <div className="aspect-[16/9] w-full overflow-hidden shrink-0">
         <img src={project.images[0]} alt={`${project.title} preview`}
           className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
       </div>
-      <div className="p-4">
+      <div className="flex flex-col flex-1 p-4">
         <h3 className="text-base font-bold leading-tight">{project.title}</h3>
         <p className="mt-0.5 text-xs font-medium text-accent">{project.tagline}</p>
-        <p className="mt-2 text-xs leading-relaxed text-muted/80 line-clamp-3" style={{ hyphens: 'none' }}>{project.description}</p>
+        <p className="mt-2 flex-1 text-xs leading-relaxed text-muted/80 line-clamp-3" style={{ hyphens: 'none' }}>{project.description}</p>
         <div className="mt-3 flex flex-wrap gap-1.5">
           {project.tags.slice(0, 3).map((tag) => (
             <span key={tag} className="rounded-md bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">{tag}</span>
@@ -243,7 +247,7 @@ export default function FeaturedProjects() {
       id="projects"
       className="sticky-section z-20 overflow-visible"
       style={{
-        background: 'linear-gradient(180deg, transparent 0%, transparent 50px, rgba(4,13,30,0.95) 110px, #040d1e 150px)',
+        background: 'linear-gradient(180deg, rgba(4,13,30,0.82) 0%, rgba(4,13,30,0.94) 50px, #040d1e 90px)',
       }}
       aria-label="Featured projects"
     >
@@ -252,10 +256,13 @@ export default function FeaturedProjects() {
       {/* Extra top padding clears the organic line (100px) */}
       <div className="section-inner" style={{ paddingTop: '7rem' }}>
         <motion.div initial={reduced ? undefined : 'hidden'} whileInView={reduced ? undefined : 'visible'} viewport={{ once: true }}>
-          <motion.h2 variants={reduced ? undefined : fadeInUp} className="mb-2 text-center text-3xl font-bold md:text-4xl">
+          <motion.h2
+            variants={reduced ? undefined : tileVariant}
+            className="mb-2 text-center text-3xl font-bold md:text-4xl"
+          >
             Featured Project Examples
           </motion.h2>
-          <motion.p variants={reduced ? undefined : fadeInUp} className="mb-8 text-center text-sm text-muted">
+          <motion.p variants={reduced ? undefined : tileVariant} className="mb-8 text-center text-sm text-muted">
             Real tools. Built solo. Shipped fast.
           </motion.p>
         </motion.div>
@@ -272,14 +279,14 @@ export default function FeaturedProjects() {
           className="flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-2 lg:grid lg:grid-cols-3 lg:overflow-visible lg:mx-0 lg:px-0 lg:pb-0"
         >
           {projects.map((project) => (
-            <div key={project.id} className="snap-start shrink-0 w-[82vw] sm:w-[60vw] md:w-[46vw] lg:w-auto">
+            <div key={project.id} className="snap-start shrink-0 w-[82vw] sm:w-[60vw] md:w-[46vw] lg:w-auto min-h-[340px] lg:min-h-0">
               <ProjectTile project={project} reduced={reduced} onClick={() => setSelected(project)} />
             </div>
           ))}
         </motion.div>
 
         <motion.p
-          variants={reduced ? undefined : fadeInUp}
+          variants={reduced ? undefined : tileVariant}
           initial={reduced ? undefined : 'hidden'}
           whileInView={reduced ? undefined : 'visible'}
           viewport={{ once: true }}

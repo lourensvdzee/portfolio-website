@@ -28,11 +28,6 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  cursor: none;
-}
-
-@media (pointer: coarse) {
-  body { cursor: auto; }
 }
 
 /* ─── Aurora (cursor-responsive glow, zero JS renders) ─ */
@@ -269,39 +264,6 @@ body::before {
     max-width: 300px !important;
     max-height: 300px !important;
   }
-}
-
-/* ─── Custom cursor ─────────────────────────────── */
-
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  border-radius: 50%;
-  will-change: transform;
-  width: 30px;
-  height: 30px;
-  border: 1.5px solid rgba(255, 255, 255, 0.35);
-  background: transparent;
-  transform: translate(-50%, -50%);
-  transition:
-    width 0.18s ease,
-    height 0.18s ease,
-    border-color 0.18s ease,
-    box-shadow 0.18s ease;
-}
-
-.cursor-ring.is-hovering {
-  width: 46px;
-  height: 46px;
-  border-color: rgba(59, 130, 246, 0.85);
-  box-shadow: 0 0 14px rgba(59, 130, 246, 0.35);
-}
-
-@media (pointer: coarse) {
-  .cursor-ring { display: none; }
 }
 
 /* ─── Reduced motion: flatten everything ──────── */

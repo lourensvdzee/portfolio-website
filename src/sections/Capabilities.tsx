@@ -63,7 +63,8 @@ export default function Capabilities() {
   return (
     <section
       id="capabilities"
-      className="sticky-section z-40 bg-bg overflow-visible"
+      className="sticky-section z-40 overflow-visible"
+      style={{ background: 'linear-gradient(180deg, transparent 0%, transparent 30px, rgba(2,6,23,0.95) 80px, #020617 120px)' }}
       aria-label="What I Build"
     >
       {!reduced && <WaveEdge />}

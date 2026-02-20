@@ -7,8 +7,6 @@ import Workflow from './sections/Workflow'
 import Capabilities from './sections/Capabilities'
 import Booking from './sections/Booking'
 import Footer from './sections/Footer'
-import CustomCursor from './components/ui/CustomCursor'
-
 const IS_DEV = import.meta.env.DEV
 
 export default function App() {
@@ -36,7 +34,6 @@ export default function App() {
       </a>
       {/* Leva dev panel — hidden in production */}
       <Leva hidden={!IS_DEV} />
-      <CustomCursor />
       <main>
         <Hero />          {/* z-10 */}
         <HeroAbout />     {/* z-15 */}
