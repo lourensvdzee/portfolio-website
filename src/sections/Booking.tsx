@@ -7,11 +7,28 @@ import ElectricBorderSVG from '../components/ui/ElectricBorderSVG'
 
 function ContactForm({ onSuccess }: { onSuccess: () => void }) {
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
-    setTimeout(() => { setLoading(false); onSuccess() }, 1500)
+    setError(null)
+    try {
+      const res = await fetch('https://formspree.io/f/mlgwwkvq', {
+        method: 'POST',
+        body: new FormData(e.currentTarget),
+        headers: { Accept: 'application/json' },
+      })
+      if (res.ok) {
+        onSuccess()
+      } else {
+        setError('Something went wrong. Please try emailing directly.')
+      }
+    } catch {
+      setError('Could not send message. Please check your connection.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -64,6 +81,7 @@ function ContactForm({ onSuccess }: { onSuccess: () => void }) {
           lourensvdzee@gmail.com
         </a>
       </p>
+      {error && <p className="text-xs text-red-400">{error}</p>}
       <button type="submit" disabled={loading}
         className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-transform hover:scale-[1.02] disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
         {loading

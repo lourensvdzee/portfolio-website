@@ -221,7 +221,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image area — top, full width, clickable to enlarge */}
-        <div className="relative min-h-0 bg-black overflow-hidden" style={{ flex: 4 }}>
+        <div className="relative min-h-0 bg-black overflow-hidden [flex:2] sm:[flex:4]">
           <AnimatePresence custom={dir} mode="wait">
             <motion.img
               key={imgIndex}
@@ -264,7 +264,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         </div>
 
         {/* Content — scrollable, 1/5 of modal height */}
-        <div className="min-h-0 overflow-y-auto p-4 sm:p-5 flex flex-col" style={{ flex: 1 }}>
+        <div className="min-h-0 overflow-y-auto p-4 sm:p-5 flex flex-col [flex:1]">
           {/* Title row: title left, tags right-aligned on desktop */}
           <div className="flex items-start gap-2 mb-1">
             <h3 className="text-xl font-bold leading-tight flex-1 min-w-0">{project.title}</h3>
