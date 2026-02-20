@@ -132,13 +132,13 @@ export default function HeroAbout() {
 
           {/* Photo — top on mobile, right on desktop */}
           <motion.div
-            initial={reduced ? undefined : { y: 130, opacity: 0, scale: 0.86 }}
+            initial={reduced ? undefined : { y: 55, opacity: 0, scale: 0.93 }}
             whileInView={reduced ? undefined : { y: 0, opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={
               reduced
                 ? undefined
-                : { type: 'spring', stiffness: 85, damping: 6, mass: 2.0 }
+                : { type: 'spring', stiffness: 90, damping: 7, mass: 1.6 }
             }
             className="order-1 lg:order-2 shrink-0"
           >

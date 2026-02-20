@@ -27,7 +27,7 @@ const steps = [
     label: 'Launch',
     title: 'Ship, Validate, and Decide',
     description:
-      'We define success criteria before we ship. If you wish, I can fully support testing in front of real users. Based on the results, we decide together: iterate, pivot, or hand off to a dev team. Every next step is driven by data, not assumptions.',
+      'We define success criteria before we ship. If you wish, I can fully support with next steps, e.g. testing, iterate, pivot, or hand off to a dev team. Every next step is driven by data, not assumptions.',
   },
 ]
 
@@ -38,7 +38,8 @@ export default function Workflow() {
   return (
     <section
       id="workflow"
-      className="sticky-section z-30 bg-bg"
+      className="sticky-section z-30"
+      style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(2,6,23,0.85) 40px, #020617 70px)' }}
       aria-label="How I work"
     >
       <div className="section-inner">
@@ -73,14 +74,14 @@ export default function Workflow() {
                 onClick={() => setOpenStep(openStep === i ? null : i)}
                 aria-expanded={openStep === i}
               >
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 relative">
-                  <step.icon className="h-4 w-4 text-primary" />
-                  <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[8px] font-black text-white leading-none" aria-hidden="true">
-                    {i + 1}
-                  </span>
+                <div className="flex flex-col items-center gap-0.5 shrink-0">
+                  <span className="text-[11px] font-black text-primary leading-none">{step.step}</span>
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/10">
+                    <step.icon className="h-3.5 w-3.5 text-primary" />
+                  </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-accent">{step.step} · {step.label}</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-accent">{step.label}</p>
                   <p className="text-sm font-bold leading-snug">{step.title}</p>
                 </div>
                 <ChevronDown

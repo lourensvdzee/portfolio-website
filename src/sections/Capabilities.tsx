@@ -1,7 +1,9 @@
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Zap, Brain, BarChart3, Settings, Wrench, FlaskConical } from 'lucide-react'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { fadeInUp, staggerContainer } from '../utils/animations'
+import ElectricBorderSVG from '../components/ui/ElectricBorderSVG'
 
 const capabilities = [
   { icon: Zap, title: 'MVP Development', description: 'Idea to live product at startup speed.' },
@@ -15,10 +17,8 @@ const capabilities = [
 /**
  * A different organic edge variant — softer, rhythmic sine-wave pattern
  * vs. the dramatic peaks/valleys of FeaturedProjects.
- * Colors: lighter cyan/teal dominant, less neon.
  */
 function WaveEdge() {
-  // Smooth sine-wave path: rises and falls gently across the full width
   const path = `
     M -10,48
     C 60,48 100,22 200,28
@@ -35,22 +35,17 @@ function WaveEdge() {
     >
       <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100px', overflow: 'visible' }}>
         <defs>
-          {/* Softer, wider halo */}
           <filter id="wave-halo" x="-20%" y="-200%" width="140%" height="500%">
             <feGaussianBlur stdDeviation="8" result="blur" />
             <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
-          {/* Mid glow */}
           <filter id="wave-glow" x="-10%" y="-100%" width="120%" height="300%">
             <feGaussianBlur stdDeviation="3" result="blur" />
             <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
         </defs>
-        {/* Wide halo — more spread, lighter opacity */}
         <path d={path} fill="none" stroke="rgba(56,189,248,0.3)" strokeWidth="14" filter="url(#wave-halo)" />
-        {/* Mid glow — cyan-ish */}
         <path d={path} fill="none" stroke="rgba(99,179,255,0.55)" strokeWidth="5" filter="url(#wave-glow)" />
-        {/* Crisp line — lighter, not harsh white */}
         <path d={path} fill="none" stroke="rgba(186,230,253,0.80)" strokeWidth="1.5" />
       </svg>
     </div>
@@ -60,14 +55,58 @@ function WaveEdge() {
 export default function Capabilities() {
   const reduced = useReducedMotion()
 
+  // Electric border: cycle through 6 capability tiles randomly
+  const tileRefs = useRef<(HTMLDivElement | null)[]>([null, null, null, null, null, null])
+  const [activeElectric, setActiveElectric] = useState<number | null>(null)
+  const [electricKey, setElectricKey] = useState(0)
+
+  useEffect(() => {
+    if (reduced) return
+    let timeout: ReturnType<typeof setTimeout>
+    let currentTile = -1
+
+    function activate() {
+      let next = Math.floor(Math.random() * 6)
+      let tries = 0
+      while (next === currentTile && tries < 10) { next = Math.floor(Math.random() * 6); tries++ }
+      currentTile = next
+      setElectricKey((k) => k + 1)
+      setActiveElectric(next)
+
+      timeout = setTimeout(() => {
+        setActiveElectric(null)
+        timeout = setTimeout(activate, 1800)
+      }, 1800)
+    }
+
+    timeout = setTimeout(activate, 2400)
+    return () => clearTimeout(timeout)
+  }, [reduced])
+
   return (
     <section
       id="capabilities"
       className="sticky-section z-40 overflow-visible"
-      style={{ background: 'linear-gradient(180deg, transparent 0%, transparent 30px, rgba(2,6,23,0.95) 80px, #020617 120px)' }}
+      style={{
+        background: 'linear-gradient(180deg, transparent 0%, transparent 30px, rgba(2,6,23,0.95) 80px, #020617 120px)',
+      }}
       aria-label="What I Build"
     >
       {!reduced && <WaveEdge />}
+
+      {/* Ambient glow behind the wave line — makes the transparent zone feel alive */}
+      {!reduced && (
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, height: '120px',
+            background: 'radial-gradient(ellipse 80% 120% at 50% 0%, rgba(56,189,248,0.06), transparent)',
+            pointerEvents: 'none',
+            zIndex: 5,
+          }}
+        />
+      )}
 
       <div className="section-inner" style={{ paddingTop: '6.5rem' }}>
         <motion.h2
@@ -87,16 +126,24 @@ export default function Capabilities() {
           viewport={{ once: true, amount: 0.2 }}
           className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3"
         >
-          {capabilities.map((cap) => (
-            <motion.div
+          {capabilities.map((cap, i) => (
+            <div
               key={cap.title}
-              variants={reduced ? undefined : fadeInUp}
-              className="rounded-2xl border border-card-border bg-card p-4 sm:p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(37,99,235,0.1)]"
+              ref={(el) => { tileRefs.current[i] = el }}
+              className="relative rounded-2xl"
             >
-              <cap.icon className="mb-3 h-6 w-6 sm:h-8 sm:w-8 text-primary" />
-              <h3 className="mb-1 text-sm sm:text-lg font-semibold leading-snug">{cap.title}</h3>
-              <p className="text-xs sm:text-sm text-muted">{cap.description}</p>
-            </motion.div>
+              <AnimatePresence>
+                {activeElectric === i && <ElectricBorderSVG key={`cap-${electricKey}`} />}
+              </AnimatePresence>
+              <motion.div
+                variants={reduced ? undefined : fadeInUp}
+                className="rounded-2xl border border-card-border bg-card p-4 sm:p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(37,99,235,0.1)]"
+              >
+                <cap.icon className="mb-3 h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+                <h3 className="mb-1 text-sm sm:text-lg font-semibold leading-snug">{cap.title}</h3>
+                <p className="text-xs sm:text-sm text-muted">{cap.description}</p>
+              </motion.div>
+            </div>
           ))}
         </motion.div>
       </div>

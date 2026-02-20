@@ -1,44 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Send, Check, Phone, Linkedin, Mail, MessageSquare, X, ArrowLeft, Copy } from 'lucide-react'
+import { Send, Check, Phone, Linkedin, Mail, MessageSquare, X, ArrowLeft } from 'lucide-react'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { fadeInUp, staggerContainer } from '../utils/animations'
-
-/* ── Electric snake border — travels around one card at a time ── */
-function ElectricBorderSVG() {
-  return (
-    <svg
-      style={{
-        position: 'absolute', inset: 0,
-        width: '100%', height: '100%',
-        pointerEvents: 'none', zIndex: 1, overflow: 'visible',
-        filter: 'drop-shadow(0 0 7px rgba(59,130,246,0.95)) drop-shadow(0 0 2px rgba(147,197,253,0.6))',
-      }}
-      viewBox="0 0 100 100"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-    >
-      <motion.rect
-        x={1} y={1} width={98} height={98} rx={10}
-        fill="none"
-        stroke="rgba(186,230,253,1)"
-        strokeWidth={2}
-        style={{ vectorEffect: 'non-scaling-stroke' } as React.CSSProperties}
-        initial={{ pathLength: 0, pathOffset: 0, opacity: 0 }}
-        animate={{
-          pathLength: [0, 0.45, 0],
-          pathOffset: [0, 0, 0.45],
-          opacity: [0, 1, 1, 0],
-        }}
-        transition={{
-          pathLength: { duration: 1.8, times: [0, 0.5, 1], ease: 'easeInOut' },
-          pathOffset: { duration: 1.8, times: [0, 0.5, 1], ease: 'easeInOut' },
-          opacity: { duration: 1.8, times: [0, 0.06, 0.85, 1] },
-        }}
-      />
-    </svg>
-  )
-}
+import ElectricBorderSVG from '../components/ui/ElectricBorderSVG'
 
 function ContactForm({ onSuccess }: { onSuccess: () => void }) {
   const [loading, setLoading] = useState(false)
@@ -115,13 +80,36 @@ export default function Booking() {
   const [submitted, setSubmitted] = useState(false)
   const [mobileFormOpen, setMobileFormOpen] = useState(false)
   const [callExpanded, setCallExpanded] = useState(false)
-  const [callCopied, setCallCopied] = useState(false)
+  const [emailExpanded, setEmailExpanded] = useState(false)
 
-  // Electric border: refs for each of the 4 mobile blocks
+  // Refs for click-outside detection
+  const callCardRef = useRef<HTMLDivElement>(null)
+  const emailCardRef = useRef<HTMLDivElement>(null)
+
+  // Electric border: 4 mobile contact blocks
   const blockRefs = useRef<(HTMLDivElement | null)[]>([null, null, null, null])
   const [activeElectric, setActiveElectric] = useState<number | null>(null)
   const [electricKey, setElectricKey] = useState(0)
 
+  // Collapse expanded cards when clicking outside
+  useEffect(() => {
+    function handleOutside(e: MouseEvent | TouchEvent) {
+      if (callExpanded && callCardRef.current && !callCardRef.current.contains(e.target as Node)) {
+        setCallExpanded(false)
+      }
+      if (emailExpanded && emailCardRef.current && !emailCardRef.current.contains(e.target as Node)) {
+        setEmailExpanded(false)
+      }
+    }
+    document.addEventListener('mousedown', handleOutside)
+    document.addEventListener('touchstart', handleOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleOutside)
+      document.removeEventListener('touchstart', handleOutside)
+    }
+  }, [callExpanded, emailExpanded])
+
+  // Electric border timer
   useEffect(() => {
     if (reduced) return
     let timeout: ReturnType<typeof setTimeout>
@@ -129,7 +117,6 @@ export default function Booking() {
 
     function activate() {
       let next = Math.floor(Math.random() * 4)
-      // Don't pick same block twice in a row
       let tries = 0
       while (next === currentBlock && tries < 10) { next = Math.floor(Math.random() * 4); tries++ }
       currentBlock = next
@@ -145,18 +132,6 @@ export default function Booking() {
     timeout = setTimeout(activate, 2000)
     return () => clearTimeout(timeout)
   }, [reduced])
-
-  async function copyCall(e: React.MouseEvent) {
-    e.stopPropagation()
-    try {
-      await navigator.clipboard.writeText('+4915251416379')
-      setCallCopied(true)
-      setTimeout(() => setCallCopied(false), 2000)
-    } catch {
-      // fallback: just open dialer
-      window.location.href = 'tel:+4915251416379'
-    }
-  }
 
   const cardBase =
     'relative flex flex-col items-center gap-2 rounded-2xl border border-card-border bg-card p-5 transition-all hover:border-primary/40 hover:shadow-[0_0_20px_rgba(37,99,235,0.12)] text-center overflow-hidden'
@@ -216,25 +191,52 @@ export default function Booking() {
                     </motion.button>
                   </div>
 
-                  {/* ② Email me */}
-                  <div ref={(el) => { blockRefs.current[1] = el }} className="relative rounded-2xl">
+                  {/* ② Email me — expandable, dismissible by clicking outside */}
+                  <div ref={(el) => { blockRefs.current[1] = el; (emailCardRef as React.MutableRefObject<HTMLDivElement | null>).current = el }} className="relative rounded-2xl">
                     <AnimatePresence>
                       {activeElectric === 1 && <ElectricBorderSVG key={`e1-${electricKey}`} />}
                     </AnimatePresence>
-                    <motion.a
+                    <motion.div
                       variants={reduced ? undefined : fadeInUp}
-                      href="mailto:connect@lourensvanderzee.com"
-                      className={cardBase}
+                      onClick={() => !emailExpanded && setEmailExpanded(true)}
+                      className={`${cardBase} cursor-pointer`}
                     >
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
-                        <Mail className="h-5 w-5 text-primary" />
-                      </div>
-                      <span className="text-sm font-semibold">Email me</span>
-                    </motion.a>
+                      <AnimatePresence mode="wait">
+                        {!emailExpanded ? (
+                          <motion.div key="email-default" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex flex-col items-center gap-2">
+                            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
+                              <Mail className="h-5 w-5 text-primary" />
+                            </div>
+                            <span className="text-sm font-semibold">Email me</span>
+                          </motion.div>
+                        ) : (
+                          <motion.div key="email-expanded" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="w-full flex flex-col gap-2.5">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] text-muted uppercase tracking-wider">Email</span>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); setEmailExpanded(false) }}
+                                className="flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-muted hover:text-text"
+                                aria-label="Close"
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </div>
+                            <p className="text-xs font-bold text-text break-all">connect@lourensvanderzee.com</p>
+                            <a
+                              href="mailto:connect@lourensvanderzee.com"
+                              onClick={(e) => e.stopPropagation()}
+                              className="flex items-center justify-center gap-1.5 rounded-xl bg-primary/10 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors"
+                            >
+                              <Mail className="h-3.5 w-3.5" /> Open mail client
+                            </a>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
                   </div>
 
-                  {/* ③ Call me — expandable to show number + copy */}
-                  <div ref={(el) => { blockRefs.current[2] = el }} className="relative rounded-2xl">
+                  {/* ③ Call me — expandable: shows number + dialer link (no copy button) */}
+                  <div ref={(el) => { blockRefs.current[2] = el; (callCardRef as React.MutableRefObject<HTMLDivElement | null>).current = el }} className="relative rounded-2xl">
                     <AnimatePresence>
                       {activeElectric === 2 && <ElectricBorderSVG key={`e2-${electricKey}`} />}
                     </AnimatePresence>
@@ -264,18 +266,12 @@ export default function Booking() {
                               </button>
                             </div>
                             <p className="text-sm font-bold text-text">+49 152 514 163 79</p>
-                            <button
-                              onClick={copyCall}
-                              className="flex items-center justify-center gap-1.5 rounded-xl bg-primary/10 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors"
-                            >
-                              {callCopied ? <><Check className="h-3.5 w-3.5" /> Copied!</> : <><Copy className="h-3.5 w-3.5" /> Copy number</>}
-                            </button>
                             <a
                               href="tel:+4915251416379"
                               onClick={(e) => e.stopPropagation()}
-                              className="text-[11px] text-muted/70 hover:text-accent transition-colors"
+                              className="flex items-center justify-center gap-1.5 rounded-xl bg-primary/10 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors"
                             >
-                              Open dialer →
+                              <Phone className="h-3.5 w-3.5" /> Open dialer
                             </a>
                           </motion.div>
                         )}
@@ -307,7 +303,7 @@ export default function Booking() {
             )}
           </AnimatePresence>
 
-          {/* Mobile form drawer — slides up from bottom as fixed overlay */}
+          {/* Mobile form drawer */}
           <AnimatePresence>
             {mobileFormOpen && (
               <motion.div
