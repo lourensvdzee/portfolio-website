@@ -88,7 +88,7 @@ export default function Capabilities() {
       id="capabilities"
       className="sticky-section z-40 overflow-visible"
       style={{
-        background: 'linear-gradient(180deg, transparent 0%, rgba(2,6,23,0.6) 30px, rgba(2,6,23,0.97) 65px, #020617 90px)',
+        background: 'linear-gradient(180deg, rgba(2,6,23,0) 0%, rgba(2,6,23,0) 70px, #020617 100px)',
       }}
       aria-label="What I Build"
     >

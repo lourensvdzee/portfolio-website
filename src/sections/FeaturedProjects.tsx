@@ -49,7 +49,7 @@ const projects: Project[] = [
     title: 'VMDb',
     tagline: 'Structured product discovery platform for plant-based goods',
     description:
-      'Started as a validation prototype and evolved into a live platform that aggregates product data, images, reviews, and producer information into one system. Includes barcode lookup, automated data enrichment, AI-assisted image selection, filtering, accounts, and multi-country support. Demonstrates how complex real-world platforms can be built quickly from concept to working product.',
+      'Started as a validation prototype and evolved into a live platform that aggregates product data, images, reviews, and producer information into one system. Includes barcode lookup, automated data enrichment, AI-assisted image selection, filtering, accounts, and multi-country support. Demonstrates how complex real-world platforms can be built quickly from concept to working product. Live at vmdb.me.',
     tags: ['Next.js', 'React', 'Supabase', 'Google Genai', 'Open Food Facts', 'TypeScript'],
     images: [
       '/vmdb_header.png',
@@ -214,14 +214,14 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 20 }}
         transition={{ duration: 0.22, ease: 'easeOut' }}
-        className="fixed inset-x-3 top-[3%] bottom-[3%] sm:inset-x-6 md:inset-x-[8%] lg:inset-x-[10%] xl:inset-x-[14%] z-[201] flex flex-col sm:flex-row rounded-2xl overflow-hidden border border-white/10"
+        className="fixed inset-x-3 top-[3%] bottom-[3%] sm:inset-x-6 md:inset-x-[8%] lg:inset-x-[10%] xl:inset-x-[14%] z-[201] flex flex-col rounded-2xl overflow-hidden border border-white/10"
         style={{ background: '#040d1e' }}
         role="dialog"
         aria-label={project.title}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image area — top, full width, clickable to enlarge */}
-        <div className="relative h-52 sm:h-full sm:w-5/6 shrink-0 bg-black overflow-hidden">
+        <div className="relative min-h-0 bg-black overflow-hidden" style={{ flex: 4 }}>
           <AnimatePresence custom={dir} mode="wait">
             <motion.img
               key={imgIndex}
@@ -263,28 +263,37 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           )}
         </div>
 
-        {/* Content — scrollable, narrow on desktop (1/6 of modal) */}
-        <div className="flex-1 sm:flex-none sm:w-1/6 sm:min-w-0 overflow-y-auto p-4 sm:p-5 flex flex-col">
-          {/* Title row: title left, tags right-aligned */}
+        {/* Content — scrollable, 1/5 of modal height */}
+        <div className="min-h-0 overflow-y-auto p-4 sm:p-5 flex flex-col" style={{ flex: 1 }}>
+          {/* Title row: title left, tags right-aligned on desktop */}
           <div className="flex items-start gap-2 mb-1">
-            <h3 className="text-xl sm:text-sm font-bold leading-tight flex-1 min-w-0">{project.title}</h3>
-            <div className="flex flex-wrap gap-0.5 justify-end shrink-0">
+            <h3 className="text-xl font-bold leading-tight flex-1 min-w-0">{project.title}</h3>
+            {/* Tags — desktop only, in title row */}
+            <div className="hidden sm:flex flex-wrap gap-0.5 justify-end shrink-0 max-w-[55%]">
               {project.tags.map((tag) => (
                 <span key={tag} className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[9px] font-medium text-primary whitespace-nowrap">{tag}</span>
               ))}
             </div>
           </div>
-          <p className="text-xs font-semibold text-accent mb-3">{project.tagline}</p>
-          <p className="flex-1 text-sm sm:text-xs leading-relaxed text-muted/90" style={{ hyphens: 'none' }}>{project.description}</p>
-          {project.link && (
-            <p className="mt-3 text-xs sm:text-[11px]">
-              <span className="text-muted/80">Live at vmdb.me. </span>
-              <a href={project.link} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-semibold text-primary hover:text-accent transition-colors">
-                Visit VMDb <ExternalLink className="h-3 w-3" />
-              </a>
-            </p>
-          )}
+          <p className="text-xs font-semibold text-accent mb-2">{project.tagline}</p>
+          <p className="flex-1 text-sm leading-relaxed text-muted/90" style={{ hyphens: 'none' }}>
+            {project.description}
+            {project.link && (
+              <>
+                {' '}
+                <a href={project.link} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-semibold text-primary hover:text-accent transition-colors whitespace-nowrap">
+                  Visit VMDb <ExternalLink className="h-3 w-3 inline-block align-middle" />
+                </a>
+              </>
+            )}
+          </p>
+          {/* Tags — mobile only, below description */}
+          <div className="sm:hidden mt-3 flex flex-wrap gap-1.5">
+            {project.tags.map((tag) => (
+              <span key={tag} className="rounded-lg bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">{tag}</span>
+            ))}
+          </div>
         </div>
 
         {/* Close — always visible with dark background */}
