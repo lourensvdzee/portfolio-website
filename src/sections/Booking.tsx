@@ -60,8 +60,8 @@ function ContactForm({ onSuccess }: { onSuccess: () => void }) {
       <p className="flex items-center gap-2 text-sm text-muted/70">
         <Mail className="h-3.5 w-3.5 shrink-0" />
         Or email me directly at{' '}
-        <a href="mailto:connect@lourensvanderzee.com" className="text-accent hover:text-primary transition-colors font-medium">
-          connect@lourensvanderzee.com
+        <a href="mailto:lourensvdzee@gmail.com" className="text-accent hover:text-primary transition-colors font-medium">
+          lourensvdzee@gmail.com
         </a>
       </p>
       <button type="submit" disabled={loading}
@@ -221,9 +221,9 @@ export default function Booking() {
                                 <X className="h-3 w-3" />
                               </button>
                             </div>
-                            <p className="text-xs font-bold text-text break-all">connect@lourensvanderzee.com</p>
+                            <p className="text-xs font-bold text-text break-all">lourensvdzee@gmail.com</p>
                             <a
-                              href="mailto:connect@lourensvanderzee.com"
+                              href="mailto:lourensvdzee@gmail.com"
                               onClick={(e) => e.stopPropagation()}
                               className="flex items-center justify-center gap-1.5 rounded-xl bg-primary/10 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors"
                             >

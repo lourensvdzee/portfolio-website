@@ -94,19 +94,6 @@ export default function Capabilities() {
     >
       {!reduced && <WaveEdge />}
 
-      {/* Ambient glow behind the wave line — makes the transparent zone feel alive */}
-      {!reduced && (
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: 0, left: 0, right: 0, height: '120px',
-            background: 'radial-gradient(ellipse 80% 120% at 50% 0%, rgba(56,189,248,0.06), transparent)',
-            pointerEvents: 'none',
-            zIndex: 5,
-          }}
-        />
-      )}
 
       <div className="section-inner" style={{ paddingTop: '6.5rem' }}>
         <motion.h2
