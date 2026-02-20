@@ -39,7 +39,7 @@ export default function Workflow() {
     <section
       id="workflow"
       className="sticky-section z-30"
-      style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(2,6,23,0.85) 40px, #020617 70px)' }}
+      style={{ background: '#020617' }}
       aria-label="How I work"
     >
       <div className="section-inner">

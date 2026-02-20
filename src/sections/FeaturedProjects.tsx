@@ -36,7 +36,7 @@ const projects: Project[] = [
     title: 'Campaign Sender',
     tagline: 'Controlled email delivery system for outbound campaigns',
     description:
-      'Built as a lightweight alternative to bulky outreach platforms. Includes real deliverability infrastructure (DNS/DKIM/SPF/DMARC), timing controls, and click/open tracking — without branding or feature restrictions. Designed for teams that want full control over how their outreach behaves instead of adapting to someone else\'s software.',
+      'Built as a lightweight alternative to bulky outreach platforms. Includes real deliverability infrastructure (DNS/DKIM/SPF/DMARC), timing controls, and click/open tracking without branding or feature restrictions. Designed for teams that want full control over how their outreach behaves instead of adapting to someone else\'s software.',
     tags: ['Node.js', 'Express', 'Nodemailer', 'Google Sheets API', 'SMTP', 'TypeScript'],
     images: [
       '/bulkmailer_1.png',
@@ -49,7 +49,7 @@ const projects: Project[] = [
     title: 'VMDb',
     tagline: 'Structured product discovery platform for plant-based goods',
     description:
-      'Started as a validation prototype and evolved into a live platform that aggregates product data, images, reviews, and producer information into one system. Includes barcode lookup, automated data enrichment, AI-assisted image selection, filtering, accounts, and multi-country support. Demonstrates how complex real-world platforms can be built quickly from concept to working product. Live at vmdb.me.',
+      'Started as a validation prototype and evolved into a live platform that aggregates product data, images, reviews, and producer information into one system. Includes barcode lookup, automated data enrichment, AI-assisted image selection, filtering, accounts, and multi-country support. Demonstrates how complex real-world platforms can be built quickly from concept to working product.',
     tags: ['Next.js', 'React', 'Supabase', 'Google Genai', 'Open Food Facts', 'TypeScript'],
     images: [
       '/vmdb_header.png',
@@ -145,7 +145,7 @@ function ImageLightbox({
           transition={{ duration: 0.18 }}
           src={images[idx]}
           alt={`Screenshot ${idx + 1}`}
-          className="max-h-[90vh] max-w-[90vw] object-contain select-none"
+          className="h-full w-full object-contain select-none sm:h-auto sm:max-h-[90vh] sm:w-auto sm:max-w-[90vw]"
           onClick={(e) => e.stopPropagation()}
           draggable={false}
         />
@@ -214,14 +214,14 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 20 }}
         transition={{ duration: 0.22, ease: 'easeOut' }}
-        className="fixed inset-x-3 top-[3%] bottom-[3%] sm:inset-x-6 md:inset-x-[8%] lg:inset-x-[10%] xl:inset-x-[14%] z-[201] flex flex-col rounded-2xl overflow-hidden border border-white/10"
+        className="fixed inset-x-3 top-[3%] bottom-[3%] sm:inset-x-6 md:inset-x-[8%] lg:inset-x-[10%] xl:inset-x-[14%] z-[201] flex flex-col sm:flex-row rounded-2xl overflow-hidden border border-white/10"
         style={{ background: '#040d1e' }}
         role="dialog"
         aria-label={project.title}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image area — top, full width, clickable to enlarge */}
-        <div className="relative h-52 sm:h-72 lg:h-80 shrink-0 bg-black overflow-hidden">
+        <div className="relative h-52 sm:h-full sm:w-5/6 shrink-0 bg-black overflow-hidden">
           <AnimatePresence custom={dir} mode="wait">
             <motion.img
               key={imgIndex}
@@ -263,21 +263,27 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           )}
         </div>
 
-        {/* Content — scrollable */}
-        <div className="flex-1 overflow-y-auto p-5 sm:p-7">
-          <h3 className="text-xl sm:text-2xl font-bold mb-1">{project.title}</h3>
-          <p className="text-xs sm:text-sm font-semibold text-accent mb-4">{project.tagline}</p>
-          <p className="text-sm leading-relaxed text-muted/90" style={{ hyphens: 'none' }}>{project.description}</p>
-          <div className="mt-4 flex flex-wrap gap-1.5">
-            {project.tags.map((tag) => (
-              <span key={tag} className="rounded-lg bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">{tag}</span>
-            ))}
+        {/* Content — scrollable, narrow on desktop (1/6 of modal) */}
+        <div className="flex-1 sm:flex-none sm:w-1/6 sm:min-w-0 overflow-y-auto p-4 sm:p-5 flex flex-col">
+          {/* Title row: title left, tags right-aligned */}
+          <div className="flex items-start gap-2 mb-1">
+            <h3 className="text-xl sm:text-sm font-bold leading-tight flex-1 min-w-0">{project.title}</h3>
+            <div className="flex flex-wrap gap-0.5 justify-end shrink-0">
+              {project.tags.map((tag) => (
+                <span key={tag} className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[9px] font-medium text-primary whitespace-nowrap">{tag}</span>
+              ))}
+            </div>
           </div>
+          <p className="text-xs font-semibold text-accent mb-3">{project.tagline}</p>
+          <p className="flex-1 text-sm sm:text-xs leading-relaxed text-muted/90" style={{ hyphens: 'none' }}>{project.description}</p>
           {project.link && (
-            <a href={project.link} target="_blank" rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-accent transition-colors">
-              Visit {project.title} <ExternalLink className="h-3.5 w-3.5" />
-            </a>
+            <p className="mt-3 text-xs sm:text-[11px]">
+              <span className="text-muted/80">Live at vmdb.me. </span>
+              <a href={project.link} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 font-semibold text-primary hover:text-accent transition-colors">
+                Visit VMDb <ExternalLink className="h-3 w-3" />
+              </a>
+            </p>
           )}
         </div>
 

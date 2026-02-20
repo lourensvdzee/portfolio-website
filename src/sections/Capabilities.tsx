@@ -88,7 +88,7 @@ export default function Capabilities() {
       id="capabilities"
       className="sticky-section z-40 overflow-visible"
       style={{
-        background: 'linear-gradient(180deg, transparent 0%, transparent 30px, rgba(2,6,23,0.95) 80px, #020617 120px)',
+        background: 'linear-gradient(180deg, transparent 0%, rgba(2,6,23,0.6) 30px, rgba(2,6,23,0.97) 65px, #020617 90px)',
       }}
       aria-label="What I Build"
     >
@@ -137,7 +137,7 @@ export default function Capabilities() {
               </AnimatePresence>
               <motion.div
                 variants={reduced ? undefined : fadeInUp}
-                className="rounded-2xl border border-card-border bg-card p-4 sm:p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(37,99,235,0.1)]"
+                className="h-full rounded-2xl border border-card-border bg-card p-4 sm:p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(37,99,235,0.1)]"
               >
                 <cap.icon className="mb-3 h-6 w-6 sm:h-8 sm:w-8 text-primary" />
                 <h3 className="mb-1 text-sm sm:text-lg font-semibold leading-snug">{cap.title}</h3>
