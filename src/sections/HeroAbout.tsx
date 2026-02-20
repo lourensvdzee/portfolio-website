@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
-import { motion, useMotionValue, useTransform, useSpring, useScroll } from 'framer-motion'
+import { useEffect } from 'react'
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import { useControls, folder } from 'leva'
 import { fadeInUp } from '../utils/animations'
 import { useReducedMotion } from '../hooks/useReducedMotion'
@@ -45,7 +45,6 @@ function ProfilePhoto({
         }}
         aria-hidden="true"
       />
-      {/* Tilt wrapper */}
       <motion.div
         style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
         className="relative h-full w-full"
@@ -80,19 +79,7 @@ function ProfilePhoto({
 
 export default function HeroAbout() {
   const reduced = useReducedMotion()
-  const sectionRef = useRef<HTMLElement>(null)
 
-  // Scroll-driven background overlay:
-  // 0 = section just entered from bottom (transparent — HeroIntro shows through)
-  // 1 = section top is at viewport top (fully opaque)
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'start start'],
-  })
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.9], [0, 1])
-  const bgOpacitySpring = useSpring(bgOpacity, { stiffness: 60, damping: 20 })
-
-  // Tilt controls via Leva panel
   const { tiltRange, tiltStiffness } = useControls('Tilt', {
     tiltRange: { value: 20, min: 5, max: 35, step: 1, label: 'Range (deg)' },
     tiltStiffness: { value: 80, min: 30, max: 200, step: 10, label: 'Stiffness' },
@@ -122,32 +109,18 @@ export default function HeroAbout() {
 
   return (
     <section
-      ref={sectionRef}
       id="hero-about"
       className="hero-about"
       aria-label="About Lourens"
     >
-      {/* Scroll-driven solid background overlay — starts transparent, becomes opaque */}
-      <motion.div
-        aria-hidden="true"
-        style={{
-          opacity: reduced ? 1 : bgOpacitySpring,
-          position: 'absolute',
-          inset: 0,
-          backgroundColor: '#020617',
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      />
+      {/*
+        Background is handled by the .hero-about CSS gradient (transparent → solid).
+        No JS overlay needed.
+      */}
+      <div className="section-inner">
+        <div className="flex flex-col items-center pb-16 lg:pb-0 lg:flex-row lg:justify-end lg:items-center lg:gap-12">
 
-      <div className="section-inner" style={{ position: 'relative', zIndex: 1 }}>
-        {/*
-          Desktop: flex row, justify-end → [bio right-aligned text] [photo]
-          Mobile:  flex col, centered   → photo top, bio below
-        */}
-        <div className="flex flex-col items-center lg:flex-row lg:justify-end lg:items-center lg:gap-12">
-
-          {/* Photo — top on mobile, right on desktop. Spring bounce on entry */}
+          {/* Photo — top on mobile, right on desktop */}
           <motion.div
             initial={reduced ? undefined : { y: 90, opacity: 0, scale: 0.92 }}
             whileInView={reduced ? undefined : { y: 0, opacity: 1, scale: 1 }}
@@ -168,9 +141,9 @@ export default function HeroAbout() {
             initial={reduced ? undefined : 'hidden'}
             whileInView={reduced ? undefined : 'visible'}
             viewport={{ once: true, amount: 0.3 }}
-            className="order-2 lg:order-1 max-w-md text-center lg:text-right mt-8 lg:mt-0"
+            className="order-2 lg:order-1 max-w-md text-center lg:text-right mt-6 lg:mt-0"
           >
-            {/* Role badge — with electric lightning glitch */}
+            {/* Role badge — electric lightning glitch */}
             <p
               className={`mb-5 text-base sm:text-lg md:text-xl font-bold uppercase tracking-widest text-accent${reduced ? '' : ' badge-glitch'}`}
             >
@@ -188,9 +161,9 @@ export default function HeroAbout() {
               className="mt-4 text-base sm:text-lg leading-relaxed text-muted/90"
               style={{ hyphens: 'none' }}
             >
-              After 15+ years across SaaS, e-commerce, and marketing, I now combine product
-              thinking and AI tooling to build MVPs, automations and internal tools — testable
-              in days, not months.
+              After 15+ years across SaaS, e-commerce and marketing, I combine product
+              thinking with AI tooling to build MVPs, automations and internal tools.
+              All testable in days, not months.
             </p>
             <p
               className="mt-4 text-sm sm:text-base leading-relaxed text-muted/70 italic"

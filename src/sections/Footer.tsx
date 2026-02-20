@@ -10,14 +10,6 @@ export default function Footer() {
           >
             connect@lourensvanderzee.com
           </a>
-          <a
-            href="https://linkedin.com/in/lourens-van-der-zee"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition-colors hover:text-text"
-          >
-            LinkedIn
-          </a>
         </div>
         <span>&copy; {new Date().getFullYear()} All rights reserved.</span>
       </div>

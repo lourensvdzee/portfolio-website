@@ -251,8 +251,8 @@ body::before {
 @media (max-width: 639px) {
   /* iPhone SE / small phones — keep image in safe area, leave room for bio */
   .profile-photo-wrapper {
-    max-width: min(210px, 55vw) !important;
-    max-height: min(210px, 55vw) !important;
+    max-width: min(160px, 45vw) !important;
+    max-height: min(160px, 45vw) !important;
   }
 }
 

@@ -87,7 +87,7 @@ export default function Hero() {
               href="#contact"
               className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-card-border bg-card px-4 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base font-semibold text-text transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
-              Book a Call <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              Free MVP Call <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </a>
           </motion.div>
         </motion.div>
