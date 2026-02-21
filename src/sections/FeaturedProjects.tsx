@@ -221,7 +221,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         onClick={(e) => e.stopPropagation()}
       >
         {/* Image area — top, full width, clickable to enlarge */}
-        <div className="relative min-h-0 bg-black overflow-hidden [flex:2] sm:[flex:4]">
+        <div className="relative min-h-0 bg-black overflow-hidden [flex:1] sm:[flex:4]">
           <AnimatePresence custom={dir} mode="wait">
             <motion.img
               key={imgIndex}
@@ -264,7 +264,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         </div>
 
         {/* Content — scrollable, 1/5 of modal height */}
-        <div className="min-h-0 overflow-y-auto p-4 sm:p-5 flex flex-col [flex:1]">
+        <div className="min-h-0 overflow-y-auto p-4 sm:p-5 flex flex-col [flex:2] sm:[flex:1]">
           {/* Title row: title left, tags right-aligned on desktop */}
           <div className="flex items-start gap-2 mb-1">
             <h3 className="text-xl font-bold leading-tight flex-1 min-w-0">{project.title}</h3>
@@ -381,6 +381,13 @@ export default function FeaturedProjects() {
       aria-label="Featured projects"
     >
       {!reduced && <OrganicEdge />}
+
+      {!reduced && (
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div className="absolute top-1/3 left-1/4 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/12 blur-[160px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 h-[400px] w-[400px] rounded-full bg-accent/[0.07] blur-[120px] animate-pulse [animation-delay:2s]" />
+        </div>
+      )}
 
       <div className="section-inner" style={{ paddingTop: '7rem' }}>
         <motion.div initial={reduced ? undefined : 'hidden'} whileInView={reduced ? undefined : 'visible'} viewport={{ once: true }}>

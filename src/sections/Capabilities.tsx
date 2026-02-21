@@ -88,12 +88,18 @@ export default function Capabilities() {
       id="capabilities"
       className="sticky-section z-40 overflow-visible"
       style={{
-        background: 'linear-gradient(180deg, rgba(2,6,23,0) 0%, rgba(2,6,23,0) 50px, #020617 65px)',
+        background: 'linear-gradient(180deg, rgba(2,6,23,0) 0%, rgba(2,6,23,0) 30px, #020617 50px)',
       }}
       aria-label="What I Build"
     >
       {!reduced && <WaveEdge />}
 
+      {!reduced && (
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div className="absolute top-1/3 left-1/4 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/12 blur-[160px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 h-[400px] w-[400px] rounded-full bg-accent/[0.07] blur-[120px] animate-pulse [animation-delay:2s]" />
+        </div>
+      )}
 
       <div className="section-inner" style={{ paddingTop: '6.5rem' }}>
         <motion.h2

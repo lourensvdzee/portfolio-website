@@ -123,10 +123,12 @@ export default function HeroAbout() {
       className="hero-about"
       aria-label="About Lourens"
     >
-      {/*
-        Background is handled by the .hero-about CSS gradient (transparent → solid).
-        No JS overlay needed.
-      */}
+      {!reduced && (
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <div className="absolute top-1/3 left-1/4 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/12 blur-[160px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 h-[400px] w-[400px] rounded-full bg-accent/[0.07] blur-[120px] animate-pulse [animation-delay:2s]" />
+        </div>
+      )}
       <div className="section-inner">
         <div className="flex flex-col items-center pb-16 lg:pb-0 lg:flex-row lg:justify-end lg:items-center lg:gap-12">
 
