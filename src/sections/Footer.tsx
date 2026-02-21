@@ -11,6 +11,10 @@ export default function Footer() {
             connect@lourensvanderzee.com
           </a>
         </div>
+        <div className="flex items-center gap-4">
+          <a href="/impressum.html" className="transition-colors hover:text-text">Impressum</a>
+          <a href="/datenschutz.html" className="transition-colors hover:text-text">Datenschutz</a>
+        </div>
         <span>&copy; {new Date().getFullYear()} All rights reserved.</span>
       </div>
     </footer>
