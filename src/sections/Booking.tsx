@@ -24,10 +24,19 @@ function ContactForm({ onSuccess }: { onSuccess: () => void }) {
         window.umami?.track('contact-form-submit')
         onSuccess()
       } else {
-        setError('Something went wrong. Please try emailing directly.')
+        const body = await res.json().catch(() => null)
+        if (res.status === 422) {
+          setError('Message flagged as spam. Please email me directly.')
+        } else if (res.status === 429) {
+          setError('Too many submissions. Please wait a moment and try again.')
+        } else if (body?.errors?.[0]?.message) {
+          setError(body.errors[0].message)
+        } else {
+          setError('Something went wrong. Please try emailing directly.')
+        }
       }
     } catch {
-      setError('Could not send message. Please check your connection.')
+      setError('Could not send — please check your connection or email me directly.')
     } finally {
       setLoading(false)
     }
@@ -371,6 +380,28 @@ export default function Booking() {
           >
             <motion.a
               variants={reduced ? undefined : fadeInUp}
+              href="https://cal.eu/lourensvanderzee/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => window.umami?.track('cal-eu-click')}
+              className="flex-1 group flex flex-col rounded-2xl border border-primary/20 bg-card p-5 transition-all hover:border-primary/50 hover:shadow-[0_0_24px_rgba(37,99,235,0.15)]"
+            >
+              <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                  <Calendar className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-text leading-tight">Book a 30-min call</p>
+                  <p className="text-xs text-muted mt-0.5">Free · No commitment</p>
+                </div>
+              </div>
+              <p className="mt-3 text-sm text-primary font-medium group-hover:text-accent transition-colors">
+                Schedule via cal.eu →
+              </p>
+            </motion.a>
+
+            <motion.a
+              variants={reduced ? undefined : fadeInUp}
               href="tel:+4915251416379"
               onClick={() => window.umami?.track('phone-click')}
               className="flex-1 group rounded-2xl border border-card-border bg-card p-5 transition-all hover:border-primary/40 hover:shadow-[0_0_24px_rgba(37,99,235,0.12)]"
@@ -408,28 +439,6 @@ export default function Booking() {
               </div>
               <p className="mt-3 text-sm text-primary font-medium group-hover:text-accent transition-colors">
                 View my LinkedIn profile →
-              </p>
-            </motion.a>
-
-            <motion.a
-              variants={reduced ? undefined : fadeInUp}
-              href="https://cal.eu/lourensvanderzee/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => window.umami?.track('cal-eu-click')}
-              className="flex-1 group flex flex-col rounded-2xl border border-primary/20 bg-card p-5 transition-all hover:border-primary/50 hover:shadow-[0_0_24px_rgba(37,99,235,0.15)]"
-            >
-              <div className="flex items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-                  <Calendar className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <p className="font-semibold text-text leading-tight">Book a 30-min call</p>
-                  <p className="text-xs text-muted mt-0.5">Free · No commitment</p>
-                </div>
-              </div>
-              <p className="mt-3 text-sm text-primary font-medium group-hover:text-accent transition-colors">
-                Schedule via cal.eu →
               </p>
             </motion.a>
           </motion.div>
