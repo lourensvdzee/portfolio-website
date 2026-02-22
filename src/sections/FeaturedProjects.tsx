@@ -282,6 +282,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
               <>
                 {' '}
                 <a href={project.link} target="_blank" rel="noopener noreferrer"
+                  onClick={() => window.umami?.track('project-link-click', { project: project.title })}
                   className="inline-flex items-center gap-1 font-semibold text-primary hover:text-accent transition-colors whitespace-nowrap">
                   Visit VMDb <ExternalLink className="h-3 w-3 inline-block align-middle" />
                 </a>
@@ -404,7 +405,7 @@ export default function FeaturedProjects() {
         >
           {projects.map((project) => (
             <div key={project.id} className="snap-start shrink-0 w-[82vw] sm:w-[60vw] md:w-[46vw] lg:w-auto min-h-[340px] lg:min-h-0">
-              <ProjectTile project={project} reduced={reduced} onClick={() => setSelected(project)} />
+              <ProjectTile project={project} reduced={reduced} onClick={() => { setSelected(project); window.umami?.track('project-open', { project: project.title }) }} />
             </div>
           ))}
         </motion.div>

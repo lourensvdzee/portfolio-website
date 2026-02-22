@@ -21,6 +21,7 @@ function ContactForm({ onSuccess }: { onSuccess: () => void }) {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       })
       if (res.ok) {
+        window.umami?.track('contact-form-submit')
         onSuccess()
       } else {
         setError('Something went wrong. Please try emailing directly.')
@@ -78,8 +79,8 @@ function ContactForm({ onSuccess }: { onSuccess: () => void }) {
       <p className="flex items-center gap-2 text-sm text-muted/70">
         <Mail className="h-3.5 w-3.5 shrink-0" />
         Or email me directly at{' '}
-        <a href="mailto:lourensvdzee@gmail.com" className="text-accent hover:text-primary transition-colors font-medium">
-          lourensvdzee@gmail.com
+        <a href="mailto:connect@lourensvanderzee.com" onClick={() => window.umami?.track('email-click')} className="text-accent hover:text-primary transition-colors font-medium">
+          connect@lourensvanderzee.com
         </a>
       </p>
       {error && <p className="text-xs text-red-400">{error}</p>}
@@ -201,7 +202,7 @@ export default function Booking() {
                     </AnimatePresence>
                     <motion.button
                       variants={reduced ? undefined : fadeInUp}
-                      onClick={() => setMobileFormOpen(true)}
+                      onClick={() => { window.umami?.track('contact-form-start'); setMobileFormOpen(true) }}
                       className={cardBase}
                     >
                       <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
@@ -221,6 +222,7 @@ export default function Booking() {
                       href="https://cal.eu/lourensvanderzee/30min"
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => window.umami?.track('cal-eu-click')}
                       className={cardBase}
                     >
                       <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
@@ -263,7 +265,7 @@ export default function Booking() {
                             <p className="text-sm font-bold text-text">+49 152 514 163 79</p>
                             <a
                               href="tel:+4915251416379"
-                              onClick={(e) => e.stopPropagation()}
+                              onClick={(e) => { e.stopPropagation(); window.umami?.track('phone-click') }}
                               className="flex items-center justify-center gap-1.5 rounded-xl bg-primary/10 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors"
                             >
                               <Phone className="h-3.5 w-3.5" /> Open dialer
@@ -284,6 +286,7 @@ export default function Booking() {
                       href="https://linkedin.com/in/lourens-van-der-zee"
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => window.umami?.track('linkedin-click')}
                       className={cardBase}
                     >
                       <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#0a66c2]/20">
@@ -366,20 +369,32 @@ export default function Booking() {
             viewport={{ once: true, amount: 0.2 }}
             className="flex flex-col gap-5"
           >
-            <motion.div variants={reduced ? undefined : fadeInUp} className="flex-1 rounded-2xl border border-card-border bg-card p-5">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted">Phone</p>
-              <a href="tel:+4915251416379" className="flex items-center gap-2.5 text-text font-semibold hover:text-primary transition-colors">
-                <Phone className="h-4 w-4 text-primary shrink-0" />
-                +49 152 514 163 79
-              </a>
-              <p className="mt-1.5 text-xs text-muted/60">Available Mon–Fri, 9:00–18:00 CET</p>
-            </motion.div>
+            <motion.a
+              variants={reduced ? undefined : fadeInUp}
+              href="tel:+4915251416379"
+              onClick={() => window.umami?.track('phone-click')}
+              className="flex-1 group rounded-2xl border border-card-border bg-card p-5 transition-all hover:border-primary/40 hover:shadow-[0_0_24px_rgba(37,99,235,0.12)]"
+            >
+              <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                  <Phone className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-text leading-tight">+49 152 514 163 79</p>
+                  <p className="text-xs text-muted mt-0.5">Mon–Fri, 9:00–18:00 CET</p>
+                </div>
+              </div>
+              <p className="mt-3 text-sm text-primary font-medium group-hover:text-accent transition-colors">
+                Call now →
+              </p>
+            </motion.a>
 
             <motion.a
               variants={reduced ? undefined : fadeInUp}
               href="https://linkedin.com/in/lourens-van-der-zee"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => window.umami?.track('linkedin-click')}
               className="flex-1 group rounded-2xl border border-card-border bg-card p-5 transition-all hover:border-primary/40 hover:shadow-[0_0_24px_rgba(37,99,235,0.12)]"
             >
               <div className="flex items-start gap-3">
@@ -401,6 +416,7 @@ export default function Booking() {
               href="https://cal.eu/lourensvanderzee/30min"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => window.umami?.track('cal-eu-click')}
               className="flex-1 group flex flex-col rounded-2xl border border-primary/20 bg-card p-5 transition-all hover:border-primary/50 hover:shadow-[0_0_24px_rgba(37,99,235,0.15)]"
             >
               <div className="flex items-start gap-3">
