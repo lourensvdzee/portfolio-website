@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Send, Check, Phone, Linkedin, Mail, MessageSquare, X, ArrowLeft } from 'lucide-react'
+import { Send, Check, Phone, Linkedin, Mail, MessageSquare, X, ArrowLeft, Calendar } from 'lucide-react'
 import { useReducedMotion } from '../hooks/useReducedMotion'
 import { fadeInUp, staggerContainer } from '../utils/animations'
 import ElectricBorderSVG from '../components/ui/ElectricBorderSVG'
@@ -99,11 +99,9 @@ export default function Booking() {
   const [submitted, setSubmitted] = useState(false)
   const [mobileFormOpen, setMobileFormOpen] = useState(false)
   const [callExpanded, setCallExpanded] = useState(false)
-  const [emailExpanded, setEmailExpanded] = useState(false)
 
   // Refs for click-outside detection
   const callCardRef = useRef<HTMLDivElement>(null)
-  const emailCardRef = useRef<HTMLDivElement>(null)
 
   // Electric border: 4 mobile contact blocks
   const blockRefs = useRef<(HTMLDivElement | null)[]>([null, null, null, null])
@@ -116,9 +114,6 @@ export default function Booking() {
       if (callExpanded && callCardRef.current && !callCardRef.current.contains(e.target as Node)) {
         setCallExpanded(false)
       }
-      if (emailExpanded && emailCardRef.current && !emailCardRef.current.contains(e.target as Node)) {
-        setEmailExpanded(false)
-      }
     }
     document.addEventListener('mousedown', handleOutside)
     document.addEventListener('touchstart', handleOutside)
@@ -126,7 +121,7 @@ export default function Booking() {
       document.removeEventListener('mousedown', handleOutside)
       document.removeEventListener('touchstart', handleOutside)
     }
-  }, [callExpanded, emailExpanded])
+  }, [callExpanded])
 
   // Electric border timer
   useEffect(() => {
@@ -216,48 +211,23 @@ export default function Booking() {
                     </motion.button>
                   </div>
 
-                  {/* ② Email me — expandable, dismissible by clicking outside */}
-                  <div ref={(el) => { blockRefs.current[1] = el; (emailCardRef as React.MutableRefObject<HTMLDivElement | null>).current = el }} className="relative rounded-2xl">
+                  {/* ② Book a call */}
+                  <div ref={(el) => { blockRefs.current[1] = el }} className="relative rounded-2xl">
                     <AnimatePresence>
                       {activeElectric === 1 && <ElectricBorderSVG key={`e1-${electricKey}`} />}
                     </AnimatePresence>
-                    <motion.div
+                    <motion.a
                       variants={reduced ? undefined : fadeInUp}
-                      onClick={() => !emailExpanded && setEmailExpanded(true)}
-                      className={`${cardBase} cursor-pointer`}
+                      href="https://cal.eu/lourensvanderzee/30min"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cardBase}
                     >
-                      <AnimatePresence mode="wait">
-                        {!emailExpanded ? (
-                          <motion.div key="email-default" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="flex flex-col items-center gap-2">
-                            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
-                              <Mail className="h-5 w-5 text-primary" />
-                            </div>
-                            <span className="text-sm font-semibold">Email me</span>
-                          </motion.div>
-                        ) : (
-                          <motion.div key="email-expanded" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }} className="w-full flex flex-col gap-2.5">
-                            <div className="flex items-center justify-between">
-                              <span className="text-[10px] text-muted uppercase tracking-wider">Email</span>
-                              <button
-                                onClick={(e) => { e.stopPropagation(); setEmailExpanded(false) }}
-                                className="flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-muted hover:text-text"
-                                aria-label="Close"
-                              >
-                                <X className="h-3 w-3" />
-                              </button>
-                            </div>
-                            <p className="text-xs font-bold text-text break-all">lourensvdzee@gmail.com</p>
-                            <a
-                              href="mailto:lourensvdzee@gmail.com"
-                              onClick={(e) => e.stopPropagation()}
-                              className="flex items-center justify-center gap-1.5 rounded-xl bg-primary/10 px-3 py-2 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors"
-                            >
-                              <Mail className="h-3.5 w-3.5" /> Open mail client
-                            </a>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
+                        <Calendar className="h-5 w-5 text-primary" />
+                      </div>
+                      <span className="text-sm font-semibold">Book a call</span>
+                    </motion.a>
                   </div>
 
                   {/* ③ Call me — expandable: shows number + dialer link (no copy button) */}
@@ -396,7 +366,7 @@ export default function Booking() {
             viewport={{ once: true, amount: 0.2 }}
             className="flex flex-col gap-5"
           >
-            <motion.div variants={reduced ? undefined : fadeInUp} className="rounded-2xl border border-card-border bg-card p-5">
+            <motion.div variants={reduced ? undefined : fadeInUp} className="flex-1 rounded-2xl border border-card-border bg-card p-5">
               <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted">Phone</p>
               <a href="tel:+4915251416379" className="flex items-center gap-2.5 text-text font-semibold hover:text-primary transition-colors">
                 <Phone className="h-4 w-4 text-primary shrink-0" />
@@ -410,7 +380,7 @@ export default function Booking() {
               href="https://linkedin.com/in/lourens-van-der-zee"
               target="_blank"
               rel="noopener noreferrer"
-              className="group rounded-2xl border border-card-border bg-card p-5 transition-all hover:border-primary/40 hover:shadow-[0_0_24px_rgba(37,99,235,0.12)]"
+              className="flex-1 group rounded-2xl border border-card-border bg-card p-5 transition-all hover:border-primary/40 hover:shadow-[0_0_24px_rgba(37,99,235,0.12)]"
             >
               <div className="flex items-start gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0a66c2]/20">
@@ -423,6 +393,27 @@ export default function Booking() {
               </div>
               <p className="mt-3 text-sm text-primary font-medium group-hover:text-accent transition-colors">
                 View my LinkedIn profile →
+              </p>
+            </motion.a>
+
+            <motion.a
+              variants={reduced ? undefined : fadeInUp}
+              href="https://cal.eu/lourensvanderzee/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 group flex flex-col rounded-2xl border border-primary/20 bg-card p-5 transition-all hover:border-primary/50 hover:shadow-[0_0_24px_rgba(37,99,235,0.15)]"
+            >
+              <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                  <Calendar className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-text leading-tight">Book a 30-min call</p>
+                  <p className="text-xs text-muted mt-0.5">Free · No commitment</p>
+                </div>
+              </div>
+              <p className="mt-3 text-sm text-primary font-medium group-hover:text-accent transition-colors">
+                Schedule via cal.eu →
               </p>
             </motion.a>
           </motion.div>

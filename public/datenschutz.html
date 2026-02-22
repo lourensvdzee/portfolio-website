@@ -17,9 +17,9 @@
         font-family: 'Inter', system-ui, sans-serif;
         line-height: 1.7;
         min-height: 100vh;
-        padding: 0 1.5rem 4rem;
+        padding: 0 1.5rem 5rem;
       }
-      .wrap { max-width: 680px; margin: 0 auto; padding-top: 3rem; }
+      .wrap { max-width: 720px; margin: 0 auto; padding-top: 3rem; }
       .back {
         display: inline-flex;
         align-items: center;
@@ -32,14 +32,33 @@
       }
       .back:hover { color: #e2e8f0; }
       h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; }
-      .subtitle { font-size: 0.8rem; color: #64748b; margin-bottom: 2rem; }
-      .divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 2rem 0; }
-      h2 { font-size: 1rem; font-weight: 600; color: #e2e8f0; margin-bottom: 0.6rem; margin-top: 1.75rem; }
-      p { color: #cbd5e1; margin-bottom: 0.6rem; }
+      .subtitle { font-size: 0.8rem; color: #64748b; margin-bottom: 0.5rem; }
+      .divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 2.5rem 0; }
+      h2 { font-size: 1.15rem; font-weight: 700; color: #e2e8f0; margin: 2rem 0 0.75rem; }
+      h3 { font-size: 0.95rem; font-weight: 600; color: #cbd5e1; margin: 1.25rem 0 0.5rem; }
+      p { color: #94a3b8; margin-bottom: 0.75rem; font-size: 0.9rem; }
       a { color: #3b82f6; text-decoration: none; }
       a:hover { text-decoration: underline; }
-      ul { color: #cbd5e1; padding-left: 1.5rem; margin-bottom: 0.6rem; }
-      li { margin-bottom: 0.2rem; }
+      ul { color: #94a3b8; padding-left: 1.5rem; margin-bottom: 0.75rem; font-size: 0.9rem; }
+      li { margin-bottom: 0.3rem; }
+      .notice {
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 0.75rem;
+        padding: 1.25rem 1.5rem;
+        margin: 1.5rem 0;
+        background: rgba(255,255,255,0.03);
+        font-size: 0.85rem;
+        color: #94a3b8;
+      }
+      .uppercase-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #64748b;
+        margin-bottom: 0.5rem;
+      }
+      .important { color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
     </style>
   </head>
   <body>
@@ -47,85 +66,122 @@
       <a href="/" class="back">← Back to portfolio</a>
 
       <h1>Privacy Policy</h1>
-      <p class="subtitle">Last updated: February 2026</p>
-
-      <h2>1. Controller</h2>
-      <p>
-        Lourens van der Zee<br />
-        Boddinstr. 12, 12053 Berlin, Germany<br />
-        Email: <a href="mailto:connect@lourensvanderzee.com">connect@lourensvanderzee.com</a>
-      </p>
+      <p class="subtitle">Last updated: February 2026 · Operator: Lourens van der Zee, Berlin</p>
 
       <hr class="divider" />
 
-      <h2>2. Overview</h2>
+      <!-- SECTION 1: QUICK OVERVIEW -->
+      <h2>1. Privacy at a Glance</h2>
+
+      <h3>General information</h3>
+      <p>The following notes provide a simple overview of what happens to your personal data when you visit this website. Personal data is any data that can be used to identify you personally. For detailed information, please refer to the full privacy policy below.</p>
+
+      <h3>Data collection on this website</h3>
+      <p><strong style="color:#e2e8f0">Who is responsible for data collection?</strong><br />
+      Data processing on this website is carried out by the website operator. Contact details can be found in the "Controller" section below.</p>
+
+      <p><strong style="color:#e2e8f0">How do we collect your data?</strong><br />
+      Your data is collected when you provide it to us — for example, by filling in a contact form or booking a call. Other data is collected automatically when you visit the website (technical data such as your browser, operating system, and time of visit).</p>
+
+      <p><strong style="color:#e2e8f0">What do we use your data for?</strong><br />
+      Part of the data is collected to ensure the website functions correctly. Other data may be used to respond to your enquiries or for pre-contractual communication.</p>
+
+      <p><strong style="color:#e2e8f0">What rights do you have regarding your data?</strong><br />
+      You have the right to receive information about the origin, recipient, and purpose of your stored personal data free of charge at any time. You also have the right to request correction or deletion of this data. You can contact us at any time about this and other questions on the subject of data protection.</p>
+
+      <hr class="divider" />
+
+      <!-- SECTION 2: HOSTING -->
+      <h2>2. Hosting</h2>
+
+      <h3>Vercel</h3>
+      <p>This website is hosted by Vercel Inc., 340 Pine Street, Suite 900, San Francisco, CA 94104, USA. When you visit this website, Vercel may process personal data including IP addresses, access times, browser types, and referrer URLs as part of providing the service.</p>
+      <p>The legal basis for this processing is Art. 6(1)(f) GDPR (legitimate interest in the secure and efficient provision of an online service) and Art. 6(1)(b) GDPR (contract performance). Data may be transferred to the USA; Vercel participates in the EU–US Data Privacy Framework. A Data Processing Agreement (DPA) is in place with Vercel through their standard terms of service (<a href="https://vercel.com/legal/dpa" target="_blank" rel="noopener noreferrer">vercel.com/legal/dpa</a>).</p>
+      <p>Further information: <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Vercel Privacy Policy</a></p>
+
+      <hr class="divider" />
+
+      <!-- SECTION 3: GENERAL / MANDATORY -->
+      <h2>3. General Notes and Mandatory Information</h2>
+
+      <h3>Data protection</h3>
+      <p>The operators of this website take the protection of your personal data very seriously. We treat your personal data confidentially and in accordance with statutory data protection regulations and this privacy policy.</p>
+      <p>Please note that data transmission over the internet (e.g. when communicating by email) may be subject to security gaps. Complete protection of data against access by third parties is not possible.</p>
+
+      <h3>Controller</h3>
       <p>
-        This website does not use cookies or third-party tracking tools.
-        The only personal data processed is data you voluntarily provide via the contact form
-        or when booking a call, and technical data collected as part of website hosting.
+        Lourens van der Zee<br />
+        Boddinstr. 12<br />
+        12053 Berlin, Germany<br />
+        Phone: <a href="tel:+4915251416379">+49 152 514 163 79</a><br />
+        Email: <a href="mailto:connect@lourensvanderzee.com">connect@lourensvanderzee.com</a>
       </p>
 
-      <h2>3. Hosting (Vercel)</h2>
-      <p>
-        This website is hosted by Vercel Inc., 340 Pine Street, Suite 900, San Francisco, CA 94104, USA.
-        When you visit this website, Vercel may process technical data including your IP address,
-        browser type, and access time as part of providing the service. This is based on
-        Art. 6(1)(f) GDPR (legitimate interest in operating a secure and functional website).
-        For more information, see the
-        <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Vercel Privacy Policy</a>.
-      </p>
+      <h3>Data retention</h3>
+      <p>Unless a specific retention period is stated in this privacy policy, your personal data will remain with us until the purpose for data processing no longer applies. If you assert a legitimate request for deletion or withdraw your consent to data processing, your data will be deleted unless we have other legally permissible reasons for storing it (e.g. tax or commercial law retention periods).</p>
 
-      <h2>4. Contact Form (Formspree)</h2>
-      <p>
-        When you submit the contact form, your data (name, email address, and message) is
-        transmitted to Formspree, Inc. (USA), which acts as a data processor on our behalf
-        pursuant to Art. 28 GDPR. The data is used solely to respond to your inquiry and
-        is not shared with any third parties. Legal basis: Art. 6(1)(b) GDPR (pre-contractual
-        communication). For more information, see the
-        <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">Formspree Privacy Policy</a>.
-      </p>
+      <h3>Legal basis for data processing</h3>
+      <p>We process personal data on one or more of the following legal bases: consent (Art. 6(1)(a) GDPR), contract performance or pre-contractual measures (Art. 6(1)(b) GDPR), compliance with a legal obligation (Art. 6(1)(c) GDPR), or our legitimate interests (Art. 6(1)(f) GDPR), unless your interests or fundamental rights override them.</p>
 
-      <h2>5. Scheduling (cal.com)</h2>
-      <p>
-        This website uses cal.com for booking calls. If you use the booking function,
-        you will be redirected to or interact with a cal.com widget. Cal.com (Cal.com Inc., USA)
-        may process your name, email address, and selected appointment time to facilitate
-        the scheduling. Legal basis: Art. 6(1)(b) GDPR (contract performance / pre-contractual
-        communication). For more information, see the
-        <a href="https://cal.com/privacy" target="_blank" rel="noopener noreferrer">cal.com Privacy Policy</a>.
-      </p>
+      <h3>SSL / TLS encryption</h3>
+      <p>This website uses SSL or TLS encryption for security reasons and to protect the transmission of confidential content. You can recognise an encrypted connection by the "https://" prefix in your browser's address bar and the lock icon. When SSL/TLS encryption is active, the data you transmit to us cannot be read by third parties.</p>
 
-      <h2>6. Analytics (Umami)</h2>
-      <p>
-        This website uses Umami, a privacy-friendly, open-source analytics tool that is
-        self-hosted on our own infrastructure. Umami does not use cookies, does not collect
-        personal data, and does not track users across websites. It collects only anonymous
-        aggregate data (e.g. page views, referrer, device type, country). No consent is
-        required for this processing, as no personal data is collected.
-      </p>
+      <h3>No cookies</h3>
+      <p>This website does not use cookies or similar tracking technologies for analytics or advertising purposes. The analytics tool used (Umami, see below) operates without cookies and does not track individual users.</p>
 
-      <h2>7. Your Rights</h2>
-      <p>Under the GDPR you have the right to:</p>
-      <ul>
-        <li>Access the personal data we hold about you (Art. 15)</li>
-        <li>Rectification of inaccurate data (Art. 16)</li>
-        <li>Erasure of your data ("right to be forgotten") (Art. 17)</li>
-        <li>Restriction of processing (Art. 18)</li>
-        <li>Data portability (Art. 20)</li>
-        <li>Object to processing based on legitimate interests (Art. 21)</li>
-      </ul>
-      <p style="margin-top:0.6rem;">
-        To exercise any of these rights, contact:
-        <a href="mailto:connect@lourensvanderzee.com">connect@lourensvanderzee.com</a>
-      </p>
+      <h3>Prohibition on unsolicited advertising emails</h3>
+      <p>The use of contact information published in this Legal Notice (Impressum) for sending unsolicited advertising and promotional materials is hereby expressly prohibited. The website operators reserve the right to take legal action in the event of the sending of unsolicited advertising information, such as via spam emails.</p>
 
-      <h2>8. Right to Lodge a Complaint</h2>
-      <p>
-        You have the right to lodge a complaint with a data protection supervisory authority.
-        The competent authority for Berlin, Germany is the
-        <a href="https://www.datenschutz-berlin.de" target="_blank" rel="noopener noreferrer">
-          Berliner Beauftragte für Datenschutz und Informationsfreiheit
-        </a>.
+      <hr class="divider" />
+
+      <!-- SECTION 4: YOUR RIGHTS -->
+      <h2>4. Your Rights</h2>
+
+      <h3>Right to information, correction, and deletion</h3>
+      <p>You have the right, within the scope of applicable law, to obtain free information at any time about your stored personal data, its origin and recipients, and the purpose of data processing, and where applicable, a right to correction or deletion. You can contact us at any time about this.</p>
+
+      <h3>Right to restriction of processing</h3>
+      <p>You have the right to request restriction of the processing of your personal data in the following cases: if you dispute the accuracy of your data; if the processing is unlawful but you oppose deletion; if we no longer need the data but you need it to establish, exercise, or defend legal claims; or if you have objected to processing and the outcome of that objection is pending.</p>
+
+      <h3>Right to data portability</h3>
+      <p>You have the right to receive data that we process automatically on the basis of your consent or in fulfilment of a contract, in a structured, commonly used, machine-readable format, or to request its direct transfer to another controller, to the extent technically feasible.</p>
+
+      <h3>Right to object (Art. 21 GDPR)</h3>
+      <p class="important">IF DATA PROCESSING IS BASED ON ART. 6(1)(E) OR (F) GDPR, YOU HAVE THE RIGHT TO OBJECT TO THE PROCESSING OF YOUR PERSONAL DATA AT ANY TIME FOR REASONS ARISING FROM YOUR PARTICULAR SITUATION. IF YOU OBJECT, WE WILL NO LONGER PROCESS THE RELEVANT PERSONAL DATA UNLESS WE CAN DEMONSTRATE COMPELLING LEGITIMATE GROUNDS FOR THE PROCESSING THAT OVERRIDE YOUR INTERESTS, RIGHTS AND FREEDOMS, OR THE PROCESSING SERVES TO ASSERT, EXERCISE, OR DEFEND LEGAL CLAIMS.</p>
+
+      <h3>Right to withdraw consent</h3>
+      <p>If data processing is based on your consent, you may withdraw that consent at any time with future effect. The lawfulness of processing based on consent before its withdrawal remains unaffected.</p>
+
+      <h3>Right to lodge a complaint</h3>
+      <p>In the event of violations of the GDPR, you have the right to lodge a complaint with a supervisory authority, in particular in the member state of your habitual residence, place of work, or place of the alleged infringement. The competent authority for Berlin, Germany is the <a href="https://www.datenschutz-berlin.de" target="_blank" rel="noopener noreferrer">Berliner Beauftragte für Datenschutz und Informationsfreiheit</a>.</p>
+
+      <hr class="divider" />
+
+      <!-- SECTION 5: SERVICES & DATA COLLECTION -->
+      <h2>5. Data Collection on This Website</h2>
+
+      <h3>Contact form (Formspree)</h3>
+      <p>When you submit the contact form on this website, your data (name, email address, optional phone number and company, and message text) is transmitted to Formspree, Inc., USA, which acts as a data processor on our behalf pursuant to Art. 28 GDPR. A Data Processing Agreement is in place. The data is used solely to respond to your enquiry and is not shared with third parties.</p>
+      <p>Legal basis: Art. 6(1)(b) GDPR (pre-contractual communication) or Art. 6(1)(f) GDPR (legitimate interest in responding to enquiries). Data is retained until the matter is resolved, subject to any mandatory legal retention periods.</p>
+      <p>Further information: <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">Formspree Privacy Policy</a></p>
+
+      <h3>Contact via email or phone</h3>
+      <p>If you contact us by email or phone, your enquiry including all personal data provided (name, enquiry content) will be stored and processed for the purpose of handling your request. We do not share this data without your consent.</p>
+      <p>Legal basis: Art. 6(1)(b) GDPR (contract performance / pre-contractual measures) or Art. 6(1)(f) GDPR (legitimate interest in handling enquiries). Data is retained until the matter is resolved, subject to mandatory legal retention periods.</p>
+
+      <h3>Appointment scheduling (cal.eu)</h3>
+      <p>This website offers the option to book appointments via cal.eu, a scheduling service operated by Cal.com, Inc. When you use the booking function, you will be redirected to the cal.eu platform, where your name, email address, and selected appointment time will be processed to facilitate the scheduling.</p>
+      <p>Legal basis: Art. 6(1)(b) GDPR (contract performance / pre-contractual communication). Data is retained for the duration necessary to fulfil the appointment and for any follow-up communication. Cal.com processes data in the USA; appropriate safeguards are in place.</p>
+      <p>Further information: <a href="https://cal.com/privacy" target="_blank" rel="noopener noreferrer">cal.com Privacy Policy</a></p>
+
+      <h3>Analytics (Umami — self-hosted, cookie-free)</h3>
+      <p>This website uses Umami, a privacy-focused, open-source web analytics tool. Umami is self-hosted on our own infrastructure (Vercel/Neon) and operates without cookies, without fingerprinting, and without collecting personal data. Only anonymous, aggregate data is collected: page views, referrer, browser type, device category, and country (derived from IP address, which is not stored). No personal profiles are created and no data is shared with third parties.</p>
+      <p>Because no personal data is collected, no legal basis under GDPR is required and no cookie consent is necessary. This processing is entirely privacy-by-design.</p>
+
+      <hr class="divider" />
+
+      <p style="margin-top:2rem; font-size:0.8rem; color:#475569;">
+        This privacy policy was last reviewed in February 2026. We reserve the right to update this policy to reflect changes in our services or applicable law. Please check back periodically for updates.
       </p>
     </div>
   </body>
