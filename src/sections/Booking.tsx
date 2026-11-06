@@ -391,7 +391,7 @@ export default function Booking() {
                   <Calendar className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-text leading-tight">Book a 30-min call</p>
+                  <p className="font-semibold text-text leading-tight">Book a 20-min call</p>
                   <p className="text-xs text-muted mt-0.5">Free · No commitment</p>
                 </div>
               </div>
