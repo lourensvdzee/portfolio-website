@@ -228,7 +228,7 @@ export default function Booking() {
                     </AnimatePresence>
                     <motion.a
                       variants={reduced ? undefined : fadeInUp}
-                      href="https://cal.eu/lourensvanderzee/30min"
+                      href="https://cal.com/lourensvanderzee/20min"
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => window.umami?.track('cal-eu-click')}
@@ -380,7 +380,7 @@ export default function Booking() {
           >
             <motion.a
               variants={reduced ? undefined : fadeInUp}
-              href="https://cal.eu/lourensvanderzee/30min"
+              href="https://cal.com/lourensvanderzee/20min"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => window.umami?.track('cal-eu-click')}
@@ -396,7 +396,7 @@ export default function Booking() {
                 </div>
               </div>
               <p className="mt-3 text-sm text-primary font-medium group-hover:text-accent transition-colors">
-                Schedule via cal.eu →
+                Schedule via cal.com →
               </p>
             </motion.a>
 
